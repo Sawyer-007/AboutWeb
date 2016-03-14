@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.resume-main {
+    position: relative;
+    width: 730px;
+    height: 980px;
+    margin: 15px auto;
+    box-shadow:0px 0px 10px 5px #dfdfdf;
+}
+.resume-main-head {
+    position: relative;
+    width: 690px;
+    height: 50px;
+    margin: 0 auto;
+    border-bottom: 2px #dfdfdf solid;
+    font-family: 'Microsoft YaHei UI';
+}
+.resume-main-head h2 {
+    position: absolute;
+    margin: 10px auto;
+    font-size: 25px;
+    color: #888888;
+}
+.resume-main-left {
+    position: relative;
+    float: left;
+    width: 160px;
+    height: 960px;
+    margin: 10px 10px 0 20px;
+}
+.resume-main-left-photo {
+    position: relative;
+    margin: 10px 8px 10px 8px;
+}
+.resume-main-left-photo img {
+    width: 140px;
+    height: 180px;
+    box-shadow:0 0 10px 5px #bbbbbb;
+}
+.resume-main-left-skill {
+    position: relative;
+    width: 136px;
+    margin: 20px 10px 0 10px;
+}
+.resume-main-left-skill-head {
+    position: relative;
+    width: 136px;
+    padding-bottom:4px;
+    border-bottom: 2px #dfdfdf solid;
+    font-family: 'Microsoft YaHei UI';
+    font-size: 16px;
+    color: #888888;
+}
+.resume-main-left-skill-body {
+    margin-top: 15px;
+}
+.resume-main-left-skill-body .progress{
+    margin-bottom: 15px;
+}
+.resume-main-right {
+    position: relative;
+    float: right;
+    margin: 10px 20px 0 0;
+    width: 520px;
+    height: 800px;
+}
+.resume-main-right-myinfo {
+    position: relative;
+    width: 500px;
+    height: 150px;
+    margin: 10px 10px 0 10px;
+}
+.resume-main-right-myinfo .glyphicon {
+    font-size: 18px;
+}
+.resume-main-right-myinfo-name {
+    position: relative;
+    float: left;
+    margin: 50px 10px 0 40px;
+    font-family: 'STXingkai';
+    font-size: 42px;
+    text-align: center;
+}
+.resume-main-right-myinfo-other {
+    position: relative;
+    float: right;
+    width: 280px;
+    margin: 15px 0 0 0;
+}
+.resume-main-right-myinfo-other .detail {
+    position: relative;
+    float: left;
+    margin: 0 15px 12px 0;
+}
+.resume-main-right-job,
+.resume-main-right-college,
+.resume-main-right-skill,
+.resume-main-right-myself {
+    position: relative;
+    margin: 5px 10px 0 10px;
+}
+.resume-main-right-job-body,
+.resume-main-right-skill-body,
+.resume-main-right-myself-body {
+    margin-top: 10px;
+}
+.resume-main-right-title {
+    position: relative;
+    margin: 5px 0px 0 0px;
+    font-family: 'Microsoft YaHei UI';
+    font-size: 21px;
+    color: #3bb0fb;
+    padding-bottom: 3px;
+    border-bottom: 4px #3bb0fb solid;
+}
+.resume-main-right-college h4 {
+    font-family:'Microsoft YaHei UI';
+    font-size: 16px;
+    color: #888888;
+    font-weight:500;
+}
