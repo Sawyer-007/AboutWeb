@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+a:hover {
+    text-decoration: none;
+}
+.left-nav {
+    width: 240px;
+    text-align: center;
+}
+.left-nav ul ul a:hover {
+    display: block;
+    background: #dfdfdf;
+
+}

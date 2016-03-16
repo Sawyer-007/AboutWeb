@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular Js</title>
+    <script src="js/angular-1.0.1.min.js"></script>
+    <script src="js/as-mian.js"></script>
+</head>
+    <div>
+        <h2>Angular 双向数据绑定</h2>
+        <input type="text" ng-model="YourName" placeholder="Enter Your name">
+        <h1>Hello , {{YourName}} !</h1>
+        <p>{{name}}</p>
+    </div>
+    <hr />
+    <div ng-controller="MyController">
+        MyController:&nbsp{{person.name}}
+        {{clock}}
+        <p>{{name}}</p>
+    </div>
+    <hr />
+    <div ng-controller="ParentController">
+        <div ng-controller="ChildController">
+            <input type="text" ng-model="person.name" placeholder="Enter Your Name">
+            <a ng-click="sayHello()">sayHello</a>
+            {{person}}
+        </div>
+        {{person}}
+    </div>
+    <hr />
+    <div ng-controller="PlayerController">
+        <button ng-click="play()"  ng-show="!playing">Play</button>
+        <button ng-click="stop()"  ng-show="playing">Stop</button>
+        Playing audio: <b>{{ playing }}</b>
+    </div>
+    <hr />
+    <div ng-controller="DemoController">
+        <h4>The simplest adding machine ever</h4>
+        <button ng-click="add(1)" class="button">Add</button>
+        <button ng-click="subtract(1)" class="button">Subtract</button>
+        <h4>Current count: {{ counter }}</h4>
+    </div>
+</body>
+</html>

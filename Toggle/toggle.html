@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>利用JQuery和Bootstrap制作的折叠式导航</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/toggle.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="left-nav">
+        <ul class="nav nav-pills nav-stacked" >
+            <li role="presentation" id="oneButton"><a href="#">教学一班</a></li>
+            <ul id="classOne" hidden>
+                <li role="presentation"><a href="#">班主任</a></li>
+                <li role="presentation"><a href="#">班长</a></li>
+                <li role="presentation"><a href="#">班级名单</a></li>
+            </ul>
+            <li role="presentation" id="twoButton"><a href="#">教学二班</a></li>
+            <ul id="classTwo" hidden>
+                <li role="presentation"><a href="#">班主任</a></li>
+                <li role="presentation"><a href="#">班长</a></li>
+                <li role="presentation"><a href="#">班级名单</a></li>
+            </ul>
+            <li role="presentation" id="threeButton"><a href="#">教学三班</a></li>
+            <ul id="classThree" hidden>
+                <li role="presentation"><a href="#">班主任</a></li>
+                <li role="presentation"><a href="#">班长</a></li>
+                <li role="presentation"><a href="#">班级名单</a></li>
+            </ul>
+        </ul>
+    </div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery-1.11.3.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/toggle.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+/**
+ * Created by Administrator on 2016/3/16 0016.
+ */
+$(function(){
+    $('#oneButton').click(function(){
+        $('#oneButton').addClass('active');
+        $('#twoButton').removeClass('active');
+        $('#threeButton').removeClass('active');
+        $('#classOne').slideToggle();
+        $('#classTwo').slideUp();
+        $('#classThree').slideUp();
+    });
+});
+$(function(){
+    $('#twoButton').click(function(){
+        $('#oneButton').removeClass('active');
+        $('#twoButton').addClass('active');
+        $('#threeButton').removeClass('active');
+        $('#classTwo').slideToggle();
+        $('#classOne').slideUp();
+        $('#classThree').slideUp();
+    });
+});
+$(function(){
+    $('#threeButton').click(function(){
+        $('#oneButton').removeClass('active');
+        $('#twoButton').removeClass('active');
+        $('#threeButton').addClass('active');
+        $('#classThree').slideToggle();
+        $('#classTwo').slideUp();
+        $('#classOne').slideUp();
+    });
+});

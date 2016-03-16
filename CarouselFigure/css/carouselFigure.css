@@ -1,0 +1,48 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.first-div {
+    position: relative;
+    margin: 50px auto;
+    width: 450px;
+    height: 250px;
+    background: #adadad;
+}
+.first-div-bottom {
+    position: absolute;
+    width: 450px;
+    height: 40px;
+    bottom: 0;
+    background: #000000;
+}
+.first-div-bottom-btn {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+}
+.first-div-bottom-btn li {
+    float: left;
+    margin-left: 10px;
+    width: 40px;
+    height: 6px;
+    background: #ffffff;
+}
+.first-div-bottom-btn li:hover {
+    background: #d43f3a;
+    cursor: pointer;
+}
+.first-div-bottom-btn li.active {
+    background: #d43f3a;
+}
+.first-div-photos {
+    position: absolute;
+}
+.first-div-photos li {
+    display: none;
+}
+.first-div-photos li img {
+    width: 450px;
+    height: 210px;
+}
