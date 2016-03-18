@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.div1 {
+    width: 200px;
+    height: 200px;
+    background: #d43f3a;
+    margin-bottom: 20px;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    display: -webkit-box;
+}
+
+.div2 {
+    width: 100px;
+    height: 100px;
+    background: #d58512;
+}
