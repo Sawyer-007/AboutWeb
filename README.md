@@ -19,7 +19,10 @@ js学习过程的实验室。</br>
 CSS学习过程中的实验室</br>
 1. 块级元素居中方法1:使用display:box;height;利用box-pack和box-align来使元素居中，优点：对于任何元素都适用。缺点：IE兼容性差。</br>
 2. 居中方法2:在position:absolute/fix；利用top，left 50%进行居中，并用transform:translate(-50%,-50%);来调整，缺点：IE。
-
+### React ###
+1. 首先介绍一个学习React的网站翻译自官网实时更新[http://reactjs.cn/react/docs/getting-started.html](http://reactjs.cn/react/docs/getting-started.html)
+2. comment.html 为第一页中 comment 例子的实例 主要介绍了React组件制的工作机制
+3. table.html 为第二页中 table 的例子 state 修改为可变属性
 ## 推荐 ##
-[https://github.com/nieweidong/fetool#interview](https://github.com/nieweidong/fetool#interview) 非常全面的大前端
-[https://github.com/hawx1993/Front-end-Interview-questions](https://github.com/hawx1993/Front-end-Interview-questions) 比较全面的前端面试题
+1. [https://github.com/nieweidong/fetool#interview](https://github.com/nieweidong/fetool#interview) 非常全面的大前端
+2. [https://github.com/hawx1993/Front-end-Interview-questions](https://github.com/hawx1993/Front-end-Interview-questions) 比较全面的前端面试题
