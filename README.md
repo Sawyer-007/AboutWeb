@@ -15,6 +15,7 @@
 js学习过程的实验室。</br>
 1. 阻止冒泡的方法：a.使用e.stopPropagation()方法。b.设置cancelBubble: true。但一般使用e.stopPropagation方法。</br>
 2. 事件监听（DOM2）addEventListener("click",function(){},true/false),true表示在事件捕获阶段，false表示在事件冒泡阶段处理程序。
+3. JQuery 中有个map和each函数 可以用来循环绑定！
 ### CSSLearn ###
 CSS学习过程中的实验室</br>
 1. 块级元素居中方法1:使用display:box;height;利用box-pack和box-align来使元素居中，优点：对于任何元素都适用。缺点：IE兼容性差。</br>
