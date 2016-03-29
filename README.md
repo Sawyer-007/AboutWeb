@@ -29,3 +29,6 @@ CSS学习过程中的实验室</br>
 ## 推荐 ##
 1. [https://github.com/nieweidong/fetool#interview](https://github.com/nieweidong/fetool#interview) 非常全面的大前端
 2. [https://github.com/hawx1993/Front-end-Interview-questions](https://github.com/hawx1993/Front-end-Interview-questions) 比较全面的前端面试题
+
+### 预告 ###
+1. 2016-3-29 学习了NodeJS，我用NodeJS写了一个爬虫，在爬我们学校的图书馆系统，等到完善会把代码共享出来。
