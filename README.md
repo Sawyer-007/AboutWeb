@@ -26,6 +26,9 @@ CSS学习过程中的实验室</br>
 3. table.html 为第二页中 table 的例子 state 修改为可变属性
 ### Vuejs ###
 1. 即将更新
+
+### play_pagination ###
++ Bootstrap + vuejs 对数据库数据的操作
 ## 推荐 ##
 1. [https://github.com/nieweidong/fetool#interview](https://github.com/nieweidong/fetool#interview) 非常全面的大前端
 2. [https://github.com/hawx1993/Front-end-Interview-questions](https://github.com/hawx1993/Front-end-Interview-questions) 比较全面的前端面试题

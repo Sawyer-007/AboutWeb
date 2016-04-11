@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Pagination BootStrp and Nodejs</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.table-body {
+				position: relative;
+				width: 800px;
+				text-align: center;
+			}
+			.table-data {
+				text-align: left;
+			}
+			.table-footer {
+			}
+			.btn-body {
+				position: relative;
+				margin: 30px auto;
+				width: 800px;
+			}
+			.btn-body .btn {
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body id="app">
+		<div class="container btn-body">
+			<button type="button" class="btn btn-success btn-lg" @click="getPageCount()">Get Data</button>
+			<button type="button" class="btn btn-danger btn-lg" @click="willDelete()">Delete Data</button>
+			<button type="button" class="btn btn-default btn-lg" @click="willUpdate()">Update Data</button>
+		</div>
+		<div class="container table-body">
+			<table class="table table-data">
+				<tr>
+					<th v-show="isDeletable">Select</th>
+					<th>ID</th>
+					<th>Name</th>
+					<th v-show="isEditable">Button</th>
+				</tr>
+				<tr v-for="user in userInfo" >
+					<td v-show="isDeletable"><input type="checkbox" value="{{user.id}}" v-model="selected"/></td>
+					<td>{{user.id}}</td>
+					<td :contenteditable="isEditable" v-model="user.name">{{user.name}}</td>
+					<td v-show="isEditable"><button type="button" class="btn btn-primary" @click="updateData(user.id, $event)">Update</button></td>
+				</tr>
+			</table>
+			
+			<button class="btn btn-lg btn-success" v-show="isDeletable" @click="deleteData()" >Submit</button>
+			<nav class="table-footer">
+			  <ul class="pagination">
+			    <li>
+			      <a href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li v-for="num in pageNumber" @click="getUserInfo(num+1)"><a href="#">{{num + 1}}</a></li>
+			    <li>
+			      <a href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>
+		<script src="js/vue.min.js"></script>
+		<script src="js/jquery-2.2.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					userInfo: [{id:1, name:'Allen'}],
+					pageNumber: 0,
+					currentPage: 1,
+					isDeletable: false,
+					isEditable: false,
+					selected: [],
+				},
+				methods: {
+					getUserInfo: function (n) {
+						var self = this;
+						this.currentPage = n;
+						$.ajax({
+							type:"get",
+							url:"http://192.168.252.130:3000/user_info_test",
+							dataType:'json',
+							data:{
+								opt: 'select',
+								page: n,
+							}
+						}).done(function (data) {
+							console.log(JSON.stringify(data));
+							self.userInfo = [];
+							data.forEach(function(el){
+								//console.log(JSON.stringify(el));
+								self.userInfo.push(el);
+							});
+						}).fail(function (err) {
+							console.log(err);
+						});
+					},
+					getPageCount : function () {
+						var self = this;
+						
+						$.ajax({
+							type:"get",
+							url:"http://192.168.252.130:3000/user_info_test",
+							dataType:'json',
+							data:{
+								opt: 'get',
+							}
+						}).done(function (data) {
+							console.log(JSON.stringify(data));
+							console.log(data.count);
+							self.pageNumber = Math.ceil(data.count/10);
+							self.getUserInfo(1);
+						}).fail(function (err) {
+							console.log(err);
+						});
+					},
+					willDelete: function () {
+						this.isDeletable = true;
+					},
+					deleteData: function () {
+						var self = this;
+						$.ajax({
+							type:"post",
+							url:"http://192.168.252.130:3000/user_info_test",
+							dataType:'json',
+							data:{
+								opt: 'delete',
+								ids: self.selected
+							}
+						}).done(function (data) {
+							console.log(data.affectedRows + 'rows already delete');
+							self.getUserInfo(self.currentPage);
+							self.selected = [];
+						}).fail(function (err) {
+							console.log(err);
+						});
+					},
+					willUpdate: function () {
+						this.isEditable = !this.isEditable;
+					},
+					updateData: function (id, e) {
+						console.log(e);
+					},
+				}
+			});
+		</script>
+	</body>
+</html>
