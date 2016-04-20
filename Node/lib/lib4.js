@@ -72,12 +72,18 @@ app.post('/lib_get', function (req, eres) {
             });
             var items = [];
   
-            $('.table_line tr').each(function () {
-              var book = $(this).text();
-              console.log(book);
+            $('.table_line tr').each(function (el) {
+              var book = [];
+              for (var i = 0; i < 8; i++) {
+              	book[i] = $(this).find('td').eq(i).text();
+              }
+              console.log($(this).find('td').eq(0).text());
               items.push(book);
             });
-            
+           	console.log(typeof items.length);
+           	if (items.length == 0) {
+           		console.log('fail');
+           	}
             eres.send(items);
           });
       });
