@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#myCanvas {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			
+			#myCanvas2 {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			
+			#myDiv {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 340px;
+				height: 340px;
+				z-index: 1000;
+			}
+			
+			#resize {
+				position: absolute;
+				width: 8px;
+				height: 8px;
+				background: #ffffff;
+				cursor: nwse-resize;
+			}
+			
+			#preview {
+				position: fixed;
+				top: 10px;
+				right: 10px;
+				width: 180px;
+				height: 500px;
+			}
+			
+			#pre100x100 {
+				position: relative;
+				float: left;
+				width: 150px;
+				height: 150px;
+				text-align: center;
+			}
+			
+			#myCanvas100 {
+				position: absolute;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+			
+			#myCanvas50 {
+				position: absolute;
+				border-radius: 50%;
+				overflow: hidden;
+			}
+			
+			#myCanvas30 {
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mainDiv">
+			<div id="myDiv">
+				<canvas id="myCanvas2" width="340px" height="340px"></canvas>
+			</div>
+			<canvas id="myCanvas" width="340px" height="340px"></canvas>
+
+			<div id="preview">
+				<div id="pre100x100">
+					<canvas id="myCanvas100" width="100px" height="100px"></canvas>
+				</div>
+				<div id="pre100x100">
+					<canvas id="myCanvas50" width="50px" height="50px"></canvas>
+				</div>
+				<div id="pre100x100">
+					<canvas id="myCanvas30" width="30px" height="30px"></canvas>
+				</div>
+				<input id="fileS" type="file">
+			</div>
+
+		</div>
+		<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+		<script>
+			var canvas = document.getElementById('myCanvas').getContext('2d');
+			$('#fileS').bind('change', function(e) {
+				var imgFile = e.target.files[0];
+				if (!imgFile) {
+					console.log('Cancel');
+					return;
+				}
+				var reader = new FileReader();
+				reader.readAsDataURL(imgFile);
+				reader.onload = function(e) {
+					var img = new Image();
+					img.onload = function() {
+						canvas.clearRect(0, 0, 340, 340)
+						canvas.drawImage(img, 0, 0, 340, 340);
+						draw();
+					}
+					img.src = this.result;
+				}
+			});
+			var canvas2 = document.getElementById('myCanvas2').getContext('2d');
+			var canvas100 = document.getElementById('myCanvas100').getContext('2d');
+			var canvas50 = document.getElementById('myCanvas50').getContext('2d');
+			var canvas30 = document.getElementById('myCanvas30').getContext('2d');
+			var avatarX = 75;
+			var avatarY = 75;
+			var avatarD = 160;
+			var avatarR = avatarD / 2;
+
+			function draw() {
+				avatarR = avatarD / 2;
+				canvas2.clearRect(0, 0, 340, 340);
+				canvas2.fillStyle = 'rgba(255, 255, 255, 0.6)';
+				canvas2.fillRect(0, 0, 340, 340);
+				canvas2.clearRect(avatarX, avatarY, avatarD, avatarD);
+				canvas2.strokeStyle = 'rgba(255, 255, 255, 0)';
+				canvas2.beginPath();
+				canvas2.moveTo(avatarX + avatarD, avatarY + avatarR); //e
+				canvas2.arc(avatarX + avatarR, avatarY + avatarR, avatarR, 0, Math.PI / 2, false); // e to s
+				canvas2.moveTo(avatarX + avatarR, avatarY + avatarD); //s
+				canvas2.lineTo(avatarX + avatarD, avatarY + avatarD); // s to es
+				canvas2.lineTo(avatarX + avatarD, avatarY + avatarR); // es to e
+				canvas2.moveTo(avatarX + avatarD, avatarY + avatarR); // e
+				canvas2.arc(avatarX + avatarR, avatarY + avatarR, avatarR, 0, Math.PI * 3 / 2, true);
+				canvas2.moveTo(avatarX + avatarR, avatarY);
+				canvas2.lineTo(avatarX + avatarD, avatarY);
+				canvas2.lineTo(avatarX + avatarD, avatarY + avatarR);
+				canvas2.moveTo(avatarX + avatarD, avatarY + avatarR);
+				canvas2.moveTo(avatarX, avatarY + avatarR);
+				canvas2.arc(avatarX + avatarR, avatarY + avatarR, avatarR, Math.PI, Math.PI * 3 / 2, false);
+				canvas2.moveTo(avatarX + avatarR, avatarY);
+				canvas2.lineTo(avatarX, avatarY);
+				canvas2.lineTo(avatarX, avatarY + avatarR);
+				canvas2.moveTo(avatarX, avatarY + avatarR);
+				canvas2.arc(avatarX + avatarR, avatarY + avatarR, avatarR, Math.PI, Math.PI / 2, true);
+				canvas2.moveTo(avatarX + avatarR, avatarY + avatarD);
+				canvas2.lineTo(avatarX, avatarY + avatarD);
+				canvas2.lineTo(avatarX, avatarY + avatarR);
+				canvas2.moveTo(avatarX, avatarY + avatarR);
+				canvas2.fill();
+				canvas2.closePath();
+				canvas2.stroke();
+				canvas2.beginPath();
+				canvas2.fillStyle = 'rgba(255, 255, 255, 1)';
+				canvas2.strokeStyle = 'rgba(0, 0, 0, 1)';
+				canvas2.arc(avatarX + avatarR * 1.707, avatarY + avatarR * 1.707, 5, 0, Math.PI * 2, true);
+				canvas2.fill();
+				canvas2.stroke();
+				canvas100.clearRect(0, 0, 340, 340);
+				canvas50.clearRect(0, 0, 340, 340);
+				canvas30.clearRect(0, 0, 340, 340);
+				canvas100.drawImage(canvas.canvas, avatarX, avatarY, avatarD, avatarD, 0, 0, 100, 100);
+				canvas50.drawImage(canvas.canvas, avatarX, avatarY, avatarD, avatarD, 0, 0, 50, 50);
+				canvas30.drawImage(canvas.canvas, avatarX, avatarY, avatarD, avatarD, 0, 0, 30, 30);
+				//canvas100.beginPath();
+				//canvas100.arc(avatarX + avatarR, avatarY + avatarR, avatarR, 0, Math.PI * 2, true);
+				//canvas100.clip();
+				//canvas100.closePath();
+			}
+
+			var canResize = false;
+			var canMove = false;
+			var oriX = '';
+			var oriY = '';
+			$('#myCanvas2').bind('mousemove', function(e) {
+				if ((Math.pow(e.clientX - (avatarX + avatarR * 1.707), 2) + Math.pow(e.clientY - (avatarY + avatarR * 1.707), 2)) <= 25) {
+					$(this).css('cursor', 'nwse-resize');
+				} else if ((Math.pow(e.clientX - (avatarX + avatarR), 2) + Math.pow(e.clientY - (avatarY + avatarR), 2)) <= Math.pow(avatarR, 2)) {
+					$(this).css('cursor', 'move');
+				} else {
+					$(this).css('cursor', 'auto');
+				}
+			});
+			$('#myCanvas2').bind('mousedown', function(e) {
+				if ((Math.pow(e.clientX - (avatarX + avatarR * 1.707), 2) + Math.pow(e.clientY - (avatarY + avatarR * 1.707), 2)) <= 25) {
+					canResize = true;
+					$(this).css('cursor', 'nwse-resize');
+				} else if ((Math.pow(e.clientX - (avatarX + avatarR), 2) + Math.pow(e.clientY - (avatarY + avatarR), 2)) <= Math.pow(avatarR, 2)) {
+					canMove = true;
+					$(this).css('cursor', 'move');
+					console.log(e.clientX);
+					console.log(e.clientY);
+					oriX = e.clientX;
+					oriY = e.clientY;
+				} else {
+					$(this).css('cursor', 'auto');
+				}
+			});
+			$('#myCanvas2').bind('mouseup', function(e) {
+				canResize = false;
+				canMove = false;
+			});
+			$('#myCanvas2').bind('mousemove', function(e) {
+				if (canResize) {
+					avatarD = e.clientY - (avatarY + avatarR * 1.707) + avatarD;
+					draw();
+				} else if (canMove) {
+					avatarX = e.clientX - oriX + avatarX;
+					avatarY = e.clientY - oriY + avatarY;
+					draw();
+					oriX = e.clientX;
+					oriY = e.clientY;
+				}
+			});
+		</script>
+	</body>
+
+</html>
