@@ -7,13 +7,18 @@
 ### CarouselFigure ###
 利用JQuery 做了一个轮播图
 ### AngularJS ###
-[http://blog.jobbole.com/46779/](http://blog.jobbole.com/46779/ "Angular") 代码和例子均源于这个blog，可作为学习Angular的入门用例。<br/>
+[http://blog.jobbole.com/46779/](http://blog.jobbole.com/46779/ "Angular") 代码和例子均源于这个blog，可作为学习Angular的入门用例。  
 推荐网址：[http://www.apjs.net/#dir33](http://www.apjs.net/#dir33)Angular 中文网
 ### Resume ###
 是一个仅用CSS制作的极简风格的简历模板，用到了BootStrap的标志文字库和进度条。
+
+### HTML5 ###
++ canvas.html 学习canvas时做的demo
++ deblocking.html 利用html5制作了手机端游戏 疯狂解锁
+
 ### JSLearn ###
-js学习过程的实验室。</br>
-1. 阻止冒泡的方法：a.使用e.stopPropagation()方法。b.设置cancelBubble: true。但一般使用e.stopPropagation方法。</br>
+js学习过程的实验室。  
+1. 阻止冒泡的方法：a.使用e.stopPropagation()方法。b.设置cancelBubble: true。但一般使用e.stopPropagation方法。  
 2. 事件监听（DOM2）addEventListener("click",function(){},true/false),true表示在事件捕获阶段，false表示在事件冒泡阶段处理程序。
 3. JQuery 中有个map和each函数 可以用来循环绑定！
 ### CSSLearn ###
@@ -27,9 +32,11 @@ CSS学习过程中的实验室</br>
 ### Vuejs ###
 1. 即将更新
 
-### play_pagination ###
+### Play_pagination ###
 + Bootstrap + vuejs 对数据库数据的操作
-## 推荐 ##
+
+
+### 推荐 ###
 1. [https://github.com/nieweidong/fetool#interview](https://github.com/nieweidong/fetool#interview) 非常全面的大前端
 2. [https://github.com/hawx1993/Front-end-Interview-questions](https://github.com/hawx1993/Front-end-Interview-questions) 比较全面的前端面试题
 

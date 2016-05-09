@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=0.4,minimum-scale=0.4,maximum-scale=0.4,user-scalable=no">
+		<title>Deblocking Game HTML5</title>
+	</head>
+	<style>
+	  .container-game-level {
+	    position: absolute;
+	    font-size: 5em;
+	    color: #FFFFFF;
+	  }
+	  .game-container-scroe {
+	   position: absolute;
+	   font-size: 8em;
+	   color: #FFFFFF;
+	   text-align: center;
+	  }
+	</style>
+	<body>
+	  <div id="container"></div>
+		<script src="js/jquery-2.2.1.min.js"></script>
+		<script>
+		  $(function () {
+		    var container = new Container('container');
+		  });
+		
+		  var gWindowHeight = $(window.parent).height() || $(window).height();
+      var gWindowWidth = $(window.parent).width() || $(window).width();
+      var random = function (num_min, num_max) {
+        return Math.floor(Math.random() * (num_max - num_min)) + num_min; 
+      };
+      var extend = function (Child, Parent) {
+        var F = function() {};
+        F.prototype = Parent.prototype;
+        Child.prototype = new F();
+        Child.prototype.constructor = Child;
+        Child.uber = Parent.prototype;
+      };
+      
+      var Container = function (id) {
+        this.init(id);
+        this.afterInit();
+      };
+      $.extend(Container.prototype, {
+        type: 'container',
+        _class: Container,
+        maxId: 0,
+        
+        init: function (id) {
+          this.id = id;  
+        },
+        afterInit: function () {
+          this.addGameContainer();
+          this.addLevel();
+        },
+        getElement: function () {
+          return $('#' + this.id);
+        },
+        addGameContainer: function () {
+          this.gameContainer = new GameContainer(this);
+        },
+        addLevel: function () {
+          var html = '<div id="'+this.id+'-game-level" class="'+this.type+'-game-level">Level: 1</div>';
+          this.getElement().append(html);
+          
+          this.gameLevelDiv = $('#' + this.id + '-game-level').css({
+            'top': gWindowHeight * 0.02,
+            'left': gWindowWidth * 0.04,
+            'height':gWindowHeight *0.05,
+          });
+        },
+        rightTip: function () {
+          var html = '<span><>';
+        }
+      });
+      
+      var CommonContainer = function (container) {
+        
+      };
+      $.extend(CommonContainer.prototype, {
+        type: 'common-container',
+        _class: CommonContainer,
+        maxId: 0,
+        
+        init:  function (container) {
+          this.container = container;
+          this.id = this.setElementId();
+          this.setElementDiv();
+        },
+        setElementId: function () {
+          return this.type + '-' + this._class.prototype.maxId++;
+        },
+        getElement: function () {
+          return $('#' + this.id);
+        },
+        setElementDiv: function () {
+          var html = '<div id="'+this.id+'" class="'+this.type+'"></div>';
+          this.container.getElement().append(html);
+        }
+        
+      });
+      
+      var GameContainer = function (container) {
+        this.init(container);
+        this.afterInit();
+      };
+      extend(GameContainer, CommonContainer);
+      $.extend(GameContainer.prototype, {
+        type: 'game-container',
+        _class: GameContainer,
+        maxId: 0,
+        
+        afterInit: function () {
+          this.pointPosition = 0;
+          this.moveDirection = true;
+          this.challenge = 1;
+          this.score = 1;
+          this.throughCircle = false;
+          this.gamePaused = false;
+          
+          this.addGameCanvas();
+          this.drawRing();
+          this.setCircleNewSite();
+          this.drawCircle();
+          this.drawPoint();
+          this.setScort();
+          this.resetPoint();
+        },
+        addGameCanvas: function () {
+          var self = this;
+          this.gameRadius = gWindowWidth * 0.65;
+          this.canvasWidth = gWindowWidth * 0.985;
+          this.canvasHeight = gWindowHeight * 0.985;
+          var html = '<canvas id="'+this.id+'-game-ring" width="'+this.canvasWidth+'" height="'+this.canvasHeight+'""></canvas>';
+          this.getElement().append(html);
+          this.gameCanvas = $('#' + this.id + '-game-ring');
+          
+          this.gameCanvas.on('click', function () {
+            if (self.gamePaused) {
+              self.setCircleNewSite();
+              self.pointPosition = 0;
+              self.scoreDiv.html(self.score);
+              self.resetPoint();
+              self.throughCircle = false;
+              self.gamePaused = false;
+            }
+            else {
+              if (self.pointPosition >= self.circelPosition - 10 && self.pointPosition <= self.circelPosition + 10) {
+                self.score--;
+                self.scoreDiv.html(self.score);
+                self.setCircleNewSite();
+                self.moveDirection = !self.moveDirection;
+                self.throughCircle = false;
+                console.log(self.score);
+                if (self.score == 0) {
+                  self.nextLevel();
+                }
+              }
+              else {
+                self.gameOver();
+              }
+            }
+          });
+        },
+        drawRing: function () {
+          var ctx = this.gameCanvas[0].getContext('2d');
+          ctx.clearRect(0, 0, this.canvasWidth, gWindowHeight);
+          
+          var gameInnerCircle = new Path2D();
+          gameInnerCircle.arc((this.canvasWidth/2), (this.canvasHeight* 2 /3 - this.canvasWidth/6), (this.gameRadius/2) * 0.7, 0, 2 * Math.PI );
+          
+          var gameOutCircle = new Path2D();
+          gameOutCircle.arc((this.canvasWidth/2), (this.canvasHeight* 2 /3 - this.canvasWidth/6) , this.gameRadius/2, 0, 2 * Math.PI );
+          
+          ctx.fillStyle = 'rgba(255, 153, 51, 1)';
+          ctx.fillRect(0,0,this.canvasWidth,gWindowHeight);
+          ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+          ctx.fill(gameOutCircle);
+          ctx.fillStyle = 'rgba(255, 153, 51, 1)';
+          ctx.fill(gameInnerCircle);
+        },
+        drawPoint: function () {
+          var ctx = this.gameCanvas[0].getContext('2d');
+          
+          ctx.beginPath();
+          ctx.lineWidth = 12;
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = 'rgba(255, 0, 0, 1)';
+          
+          if (this.pointPosition === this.circelPosition) {
+            this.throughCircle = true;
+            console.log('true');
+          }
+          if (this.throughCircle && (this.pointPosition > this.circelPosition + 10 || this.pointPosition < this.circelPosition - 10)) {
+            this.gameOver();
+          }
+          
+          if (this.moveDirection) {
+            this.pointPosition += 2;
+            if (this.pointPosition > 360) {
+              this.pointPosition -= 360;
+            }
+          }
+          else {
+            this.pointPosition -= 2;
+            if (this.pointPosition < 0) {
+              this.pointPosition += 360;
+            }
+          }
+          var pointRadian = this.pointPosition / 180 * Math.PI;
+          ctx.moveTo(this.canvasWidth/2 + this.gameRadius/2 * 0.74 * Math.sin(pointRadian), (this.canvasHeight* 2 /3 - this.canvasWidth/6) - this.gameRadius/2 * 0.74 * Math.cos(pointRadian));
+          ctx.lineTo(this.canvasWidth/2 + this.gameRadius/2 * 0.96 * Math.sin(pointRadian), (this.canvasHeight* 2 /3 - this.canvasWidth/6) - this.gameRadius/2  * 0.97 *Math.cos(pointRadian));
+          ctx.stroke();
+        },
+        setCircleNewSite: function () {
+          this.circelPosition = random(0, 360);
+          this.circelPosition % 2 == 0 ? this.circelPosition: this.circelPosition++;
+        },
+        drawCircle: function () {
+          var ctx = this.gameCanvas[0].getContext('2d');
+          var gameMoveCircle = new Path2D();
+          var centerPosition = this.circelPosition / 180 * Math.PI;
+          
+          gameMoveCircle.arc(this.canvasWidth/2 + this.gameRadius/2 * 0.85 * Math.sin(centerPosition), (this.canvasHeight* 2 /3 - this.canvasWidth/6) - (this.gameRadius/2 * 0.85 * Math.cos(centerPosition)), this.gameRadius * 0.06, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(153, 255, 102, 1)';
+          ctx.fill(gameMoveCircle);
+        },
+        setScort: function () {
+          var html = '<div id="'+this.id+'-score" class="'+this.type+'-scroe">'+this.score+'</div>';
+          this.getElement().append(html);
+          this.scoreDiv = $('#' + this.id + '-score').css({
+            'width': gWindowWidth * 0.2 + 'px',
+            'height': gWindowWidth * 0.2 + 'px',
+            'line-height': gWindowWidth * 0.2 + 'px',
+            'top': this.canvasHeight* 2 /3 - this.canvasWidth/6 + 'px',
+            'left': this.canvasWidth/2 + 'px',
+            'margin-top': -gWindowWidth * 0.1 + 'px', 
+            'margin-left': -gWindowWidth * 0.1 + 'px',
+          });
+        },
+        resetPoint: function () {
+          var self = this;
+          this.reDrawTimer = setInterval(function () {
+            self.drawRing();
+            self.drawCircle();
+            self.drawPoint();
+          }, 10);
+        },
+        gameOver: function () {
+          this.score = this.challenge;
+          this.scoreDiv.html('×');
+          this.gamePaused = true;
+          clearInterval(this.reDrawTimer);
+        },
+        nextLevel: function () {
+          this.container.gameLevelDiv.html('Level: ' + (++this.challenge));
+          this.score = this.challenge;
+          this.scoreDiv.html('√');
+          this.gamePaused = true;
+          this.drawRing();
+          clearInterval(this.reDrawTimer);
+        }
+      });
+		</script>
+	</body>
+</html>
