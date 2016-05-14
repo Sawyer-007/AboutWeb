@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Data Input Sawyer</title>
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<style>
+      body {
+        font-family: Menlo, Consolas, monospace;
+        color: #FFFFFF;
+        font-size: 1.2em;
+      }
+      .item {
+        cursor: pointer;
+      }
+      .item-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        width: 100%;
+        background: #444444;
+        overflow-y: auto;
+      }
+      .item-container-text {
+        width: 80%;
+      }
+      .item-container-options {
+       position: fixed;
+       right: 40px;
+       top: 20px; 
+      }
+      .item-container-options-btn {
+        position: relative;
+        border: 2px solid #FFFFFF;
+        width: 70px;
+        height: 70px;
+        margin-top: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 84px;
+        cursor: pointer;
+      }
+      .item-container-file {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        line-height: 72px;
+        cursor: pointer;
+      }
+      .item-result-show {
+        position:fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+      .item-result-show textarea {
+        width: 180px;
+        height: 300px;
+        resize: none;
+        overflow-y: auto;
+      }
+      .input-file {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+      }
+      .bold {
+        font-weight: bold;
+      }
+      ul {
+        padding-left: 1em;
+        line-height: 1.5em;
+      }
+      .item-add {
+        width: 120px;
+      }
+      .item-obj {
+        color: #f9267f;
+        font-weight: 500;
+      }
+      .item-obj-title {
+        font-weight: 700;
+      }
+      .item-arr {
+        color: #66d9ef;
+        font-weight: 500;
+      }
+      .item-arr-title {
+        font-weight: 700;
+      }
+      .item-str {
+        color: #e6db5a;
+        font-weight: 700;
+      }
+      .item-array-list {
+        list-style-type: decimal;
+      }
+    </style>
+	</head>
+	<body id="app">
+	  <script src="js/vue.js"></script>
+	  <script type="text/x-template" id="item-obj">
+	    <li class="item-obj">
+        <div
+          class="item-obj-title">
+          <label v-show="model.isFirst || (name && !canRename)"  @click="rename">{{name}}</label>
+          <input type="text" v-model="name" v-show="!model.isFirst && (typeof name !== 'undefined') && canRename" @blur="rename"/>
+          <span @click="toggle" class="item"><span>{</span>{{open ? '-' : '+'}}<span>}</span></span>
+          <span @click="remove" v-if="!model.isFirst" class="item">{x}</span>
+        </div>
+        <ul v-show="open">
+          <item-str
+            v-for="model in stringList"
+            :model="model"
+            :cid="cid"></item-str>
+          <item-obj
+            v-for="model in objectList"
+            :model="model"
+            :cid="cid"></item-obj>
+          <item-arr
+            v-for="model in arrayList"
+            :model="model"
+            :cid="cid"></item-arr>
+          <item-add></item-add>
+        </ul>
+      </li>
+	  </script>
+	  <script type="text/x-template" id="item-str">
+	    <li class="item-str">
+	      <template v-if="typeof name !== 'undefined'">
+	        <label v-show="!canRename"  @click="rename">{{name}}</label>
+          <input type="text" v-model="name" v-show="canRename" @blur="rename"> :
+	      </template>
+	      <label v-show="!canEdit"  @click="edit">{{content}}</label>
+	      <input type="text" v-model="content" v-show="canEdit" @blur="edit" >
+	      <span @click="remove" class="item">'x'</span>
+	    </li>
+    </script>
+    <script type="text/x-template" id="item-arr">
+      <li class="item-arr">
+        <div
+          class="item-arr-title">
+          <label v-show="(typeof name !== 'undefined') && !canRename"  @click="rename">{{name}}</label>
+          <input type="text" v-model="name" v-show="(typeof name !== 'undefined') && canRename" @blur="rename"/>
+          <span @click="toggle" class="item"><span>[</span>{{open ? '-' : '+'}}<span>]</span></span>
+          <span @click="remove" class="item">[x]</span>
+        </div>
+        <ul v-show="open" class="item-array-list">
+            <item-str
+              v-for="model in stringList"
+              :model="model"></item-str>
+            <item-obj
+              v-for="model in objectList"
+              :model="model"></item-obj>
+            <item-arr
+              v-for="model in arrayList"
+              :model="model"></item-arr>
+            <item-add></item-add>
+          </ul>
+        </li>
+    </script>
+    <script type="text/x-template" id="item-add">
+      <li class="item-add">
+        <div @click="showChildType" class="item">+</div>
+        <ul v-show="show">
+          <li @click="addString" class="item">String</li>
+          <li @click="addObject" class="item">Object</li>
+          <li @click="addArray" class="item">Array</li>
+        </ul>
+      </li>
+    </script>
+    <script type="text/x-template" id="item-btn">
+      <div class="item-container-options">
+        <div class="item-container-options-btn" >
+          <input type="file" id="item-container-file" class="input-file" accept="text/javascript, application/javascript" @change="loadFile">
+          <label class="icon-2x icon-folder-close-alt item-container-file" for="item-container-file"></label>
+        </div>
+        <div class="item-container-options-btn" @click="toJson">
+          <span class="icon-2x icon-ok"></span>
+        </div>
+      </div>
+    </script>
+    <div class="item-container">
+      <div class="item-container-text">
+        <ul>
+          <item-obj
+            :model="jsonData"
+            :cid="cid">
+          </item-obj>
+        </ul>
+      </div>
+      <item-btn></item-btn>
+      <div class="item-result-show">
+        <textarea>{{result}}</textarea>
+      </div>
+    </div>
+    <script>
+      var gWindowHeight = window.outerHeight;
+      var setElementHeight = function (el , scale) {
+        var scale = scale || 1;
+        var dom = document.querySelector(el);
+        dom.style.height = gWindowHeight * scale + 'px';
+      }
+      
+      setElementHeight('.item-container');
+    </script>
+    
+    <script>
+      var Add = Vue.extend({
+        template: '#item-add',
+        replace: true,
+        data: function () {
+          return {
+            show: false,
+          }
+        },
+        methods: {
+          showChildType: function () {
+            this.show = !this.show;
+          },
+          addString: function () {
+            this.$dispatch('addChild','string');
+          },
+          addObject: function () {
+            this.$dispatch('addChild', 'object');
+          },
+          addArray: function () {
+            this.$dispatch('addChild', 'array');
+          },
+        },
+      });
+      
+      Vue.component('item-obj', {
+        template: '#item-obj',
+        replace: true,
+        props: {
+          model: Object,
+          cid: Number,
+        },
+        ready: function () {
+          var obj = this.model.content;
+          for (var key in obj) {
+            if ((typeof obj[key]) === 'string') {
+              this.stringList.push({
+                name: key,
+                content: obj[key],
+              });
+            }
+            if ((typeof obj[key]) === 'object') {
+              if (obj[key] instanceof Array) {
+                this.arrayList.push({
+                  name: key,
+                  content: obj[key], 
+                });
+              }
+              else {
+                this.objectList.push({
+                  name: key,
+                  content: obj[key],
+                });
+              }
+            }
+          }
+          
+          console.log(this.cid);
+        },
+        data: function () {
+          return {
+            uid: 0,
+            open: false,
+            canRename: false,
+            name: this.model.name,
+            stringList:  [],
+            objectList: [],
+            arrayList: [],
+          }
+        },
+        components: {
+          'item-add': Add,
+        },
+        methods: {
+          initData: function () {
+            var obj = this.model.content;
+            this.stringList.splice(0,this.stringList.length);
+            this.objectList.splice(0,this.objectList.length);
+            this.arrayList.splice(0,this.arrayList.length);
+            for (var key in obj) {
+              if ((typeof obj[key]) === 'string') {
+                this.stringList.push({
+                  name: key,
+                  content: obj[key],
+                });
+              }
+              if ((typeof obj[key]) === 'object') {
+                if (obj[key] instanceof Array) {
+                  this.arrayList.push({
+                    name: key,
+                    content: obj[key], 
+                  });
+                }
+                else {
+                  this.objectList.push({
+                    name: key,
+                    content: obj[key],
+                  });
+                }
+              }
+            }
+          },
+          toggle: function () {
+            this.open = !this.open;
+          },
+          rename: function () {
+            if (this.name == '') {
+              this.name = this.model.name;
+            }
+            this.canRename = !this.canRename;
+          },
+          renderData: function () {
+            this.model.name = this.name;
+            this.model.content = {};
+            for (var i = 0; i < this.$children.length; i++) {
+              if (typeof this.$children[i].renderData !== 'undefined') {
+                this.$children[i].renderData();
+              }
+            }
+            for (var j = 0; j < this.stringList.length; j++) {
+              this.model.content[this.stringList[j].name] = this.stringList[j].content;
+            }
+            for (var j = 0; j < this.objectList.length; j++) {
+              this.model.content[this.objectList[j].name] = this.objectList[j].content;
+            }
+            for (var j = 0; j < this.arrayList.length; j++) {
+              this.model.content[this.arrayList[j].name] = this.arrayList[j].content;
+            }
+          },
+          remove: function () {
+            this.$parent.objectList.$remove(this.model);
+          }
+        },
+        events: {
+          'addChild': function (type) {
+            if (type === 'object') {
+              this.objectList.push({
+                name: 'object' + this.uid,
+                content: {}
+              });
+              this.uid++;
+            }
+            if (type === 'string') {
+              this.stringList.push({
+                name: 'string' + this.uid,
+                content: '',
+              });
+              this.uid++;
+            }
+            if (type === 'array') {
+              this.arrayList.push({
+                name: 'array' + this.uid,
+                content: [],
+              });
+              this.uid++;
+            }
+          }
+        },
+      });
+      
+      Vue.component('item-str', {
+        template: '#item-str',
+        replace: true,
+        props: {
+          model: Object,
+          cid: Number,
+        },
+        data: function () {
+          return {
+            name: this.model.name,
+            content: this.model.content || 'value',
+            canRename: false,
+            canEdit: false
+          }
+        },
+        methods: {
+          edit: function () {
+            if (this.content == '') {
+              this.content = 'value';
+            }
+            this.canEdit = !this.canEdit;
+          },
+          rename: function () {
+            if (this.name == '') {
+              this.name = 'key';
+            }
+            this.canRename = !this.canRename;
+            console.log(this.cid);
+          },
+          renderData: function () {
+            this.model.content = this.content;
+            this.model.name = this.name;
+          },
+          remove: function () {
+            if (confirm('sure remove?')) {
+              this.$parent.stringList.$remove(this.model);
+            } 
+          }
+        }
+      });
+      
+      Vue.component('item-arr', {
+        template: '#item-arr',
+        replace: true,
+        props: {
+          model: Object,
+        },
+        ready: function () {
+          var arr = this.model.content;
+          for (var i = 0; i < arr.length; i++) {
+            if ((typeof arr[i]) === 'string') {
+              this.stringList.push({
+                content: arr[i],
+              });
+            }
+            if ((typeof arr[i]) === 'object') {
+              if (arr[i] instanceof Array) {
+                this.arrayList.push({
+                  content: arr[i], 
+                });
+              }
+              else {
+                this.objectList.push({
+                  content: arr[i],
+                });
+              }
+            }
+          }
+        },
+        data: function () {
+          return {
+            uid: 0,
+            open: false,
+            canRename: false,
+            name: this.model.name,
+            stringList:  [],
+            objectList: [],
+            arrayList: [],
+          }
+        },
+        components: {
+          'item-add': Add,
+        },
+        methods: {
+          toggle: function () {
+            this.open = !this.open;
+          },
+          rename: function () {
+            if (this.name == '') {
+              this.name = this.model.name;
+            }
+            this.canRename = !this.canRename;
+          },
+          renderData: function () {
+            this.model.name = this.name;
+            this.model.content = [];
+            for (var i = 0; i < this.$children.length; i++) {
+              if (typeof this.$children[i].renderData !== 'undefined') {
+                this.$children[i].renderData();
+              }
+            }
+            for (var j = 0; j < this.stringList.length; j++) {
+              this.model.content.push(this.stringList[j].content);
+            }
+            for (var j = 0; j < this.objectList.length; j++) {
+              this.model.content.push(this.objectList[j].content);
+            }
+            for (var j = 0; j < this.arrayList.length; j++) {
+              this.model.content.push(this.arrayList[j].content);
+            }
+          },
+          remove: function () {
+            this.$parent.arrayList.$remove(this.model);
+          }
+        },
+        events: {
+          'addChild': function (type) {
+            if (type === 'object') {
+              this.objectList.push({
+                content: {}
+              });
+              this.uid++;
+            }
+            if (type === 'string') {
+              this.stringList.push({
+                content: '',
+              });
+              this.uid++;
+            }
+            if (type === 'array') {
+              this.arrayList.push({
+                content: [],
+              });
+              this.uid++;
+            }
+          }
+        },
+      });
+      
+      Vue.component('item-btn', {
+        template: '#item-btn',
+        methods: {
+          loadFile: function (e) {
+            console.log(e);
+            var self = this;
+            var js = e.target.files[0];
+            console.log(js);
+            var reader = new FileReader();
+            reader.readAsText(js);
+            reader.onload = function () {
+              self.$dispatch('loadFile', this.result);
+            }
+          },
+          
+          toJson: function () {
+            this.$dispatch('toJson');
+          }
+        },
+      });
+      
+      var app = new Vue({
+        el: '#app',
+        data: {
+          jsonData: {
+            name: 'Data',
+            content: {},
+            isFirst: true
+          },
+          result: '',
+          cid: 1,
+        },
+        methods: {
+          
+        },
+        events: {
+          'loadFile': function (content) {
+            var head = document.querySelector('head');
+            var deleteDom = document.querySelector('#dataxxx');
+            if (deleteDom) {
+              head.removeChild(deleteDom);
+            }
+            var dataContainer = document.createElement('script');
+            dataContainer.id = 'dataxxx';
+            dataContainer.innerHTML = content;
+            
+            head.appendChild(dataContainer);
+            
+            console.log(window.Data);
+            this.jsonData.content = Data;
+            this.$children[0].initData();
+          },
+          'toJson' : function () {
+            console.log('2');
+            this.$children[0].renderData();
+            this.result = 'var Data =' + JSON.stringify(this.jsonData.content);
+          }
+        }
+      });
+    </script>
+	</body>
+</html>
