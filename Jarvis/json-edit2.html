@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Data Input Sawyer</title>
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<style>
+      body {
+        font-family: Menlo, Consolas, monospace;
+        color: #FFFFFF;
+        font-size: 1.2em;
+      }
+      * {
+        list-style-type: none;
+      }
+      .item {
+        cursor: pointer;
+      }
+      .item-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        width: 100%;
+        background: #444444;
+        overflow-y: auto;
+      }
+      .item-container-text {
+        width: 80%;
+      }
+      .item-container-options {
+       position: fixed;
+       right: 40px;
+       top: 20px; 
+      }
+      .item-container-options-btn {
+        position: relative;
+        border: 2px solid #FFFFFF;
+        width: 70px;
+        height: 70px;
+        margin-top: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 84px;
+        cursor: pointer;
+      }
+      .item-container-file {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        line-height: 72px;
+        cursor: pointer;
+      }
+      .item-result-show {
+        position:fixed;
+        bottom: 20px;
+        right: 20px;
+      }
+      .item-result-show textarea {
+        width: 180px;
+        height: 300px;
+        resize: none;
+        overflow-y: auto;
+      }
+      .item-result-show p {
+        color: #393939;
+        margin: 0;
+        padding: 0;
+      }
+      .input-file {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+      }
+      .bold {
+        font-weight: bold;
+      }
+      ul {
+        padding-left: 1em;
+        line-height: 1.5em;
+      }
+      .item-add {
+        display: inline-block;
+      }
+      .item-add ul {
+        display: inline-block;
+      }
+      .item-add span {
+        display: inline-block;
+      }
+      .item-add ul li:hover {
+        background: #FFFFFF;
+      }
+      .item-add ul li {
+        display: inline-block;
+        border: 2px solid #DFDFDF;
+        border-radius: 8px;
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-top: -4px;
+        padding-bottom: -4px;
+      }
+      .item-obj {
+        list-style-type: none;
+        color: #f9267f;
+      }
+      .item-obj-title {
+        height: 32px;
+        line-height: 32px;
+      }
+      .item-arr {
+        color: #66d9ef;
+      }
+      .item-arr-title {
+      }
+      .item-str {
+        color: #e6db5a;
+      }
+    </style>
+	</head>
+	<body id="app" >
+	  <script src="js/vue.js"></script>
+	  <script type="text/x-template" id="item-obj">
+	    <li class="item-obj">
+        <div
+          class="item-obj-title">
+          <label v-show="model.isFirst || (name && cid !== this._uid)"  @click="foucsThis">{{name}}</label>
+          <input type="text" v-model="name" v-show="!model.isFirst && (typeof name !== 'undefined') && cid === this._uid" @blur="blurThis"/>
+          {
+          <item-add
+            :open="open"></item-add>
+        </div>
+        <ul v-show="open">
+          <item-str
+            v-for="model in stringList"
+            :model="model"
+            :cid="cid"></item-str>
+          <item-obj
+            v-for="model in objectList"
+            :model="model"
+            :cid="cid"></item-obj>
+          <item-arr
+            v-for="model in arrayList"
+            :model="model"
+            :cid="cid"></item-arr>
+        </ul>
+        <div>}</div>
+      </li>
+	  </script>
+	  <script type="text/x-template" id="item-str">
+	    <li class="item-str">
+	      <template v-if="typeof name !== 'undefined'">
+	        <label v-show="cid !== this._uid || !editName"  @click="foucsThisName">{{name}}</label>
+          <input type="text" v-model="name" v-show="cid === this._uid && editName" @blur="blurThisName"> :
+	      </template>
+	      <label v-show=" cid !== this._uid || !editContent "  @click="foucsThisContent">{{content}}</label>
+	      <input type="text" v-model="content" v-show="cid === this._uid && editContent" @blur="blurThisContent" >
+	      <span @click="remove" class="item">'x'</span>
+	    </li>
+    </script>
+    <script type="text/x-template" id="item-arr">
+      <li class="item-arr">
+        <div
+          class="item-arr-title">
+          <label v-show="(typeof name !== 'undefined') && cid !== this._uid"  @click="foucsThis">{{name}}</label>
+          <input type="text" v-model="name" v-show="(typeof name !== 'undefined') && cid === this._uid" @blur="blurThis"/>
+          [
+          <item-add
+            :open="open"></item-add>
+        </div>
+        <ul v-show="open" class="item-array-list">
+            <item-str
+              v-for="model in stringList"
+              :model="model"
+              :cid="cid"></item-str>
+            <item-obj
+              v-for="model in objectList"
+              :model="model"
+              :cid="cid"></item-obj>
+            <item-arr
+              v-for="model in arrayList"
+              :model="model"
+              :cid="cid"></item-arr>
+          </ul>
+          <div>]</div>
+        </li>
+    </script>
+    <script type="text/x-template" id="item-add">
+      <div class="item-add">
+        <span class="icon " :class="{'icon-chevron-right' : !show, 'icon-chevron-left' : show}" @click="showChildType"></span>
+        <ul v-show="show">
+          <li @click="addCopy" class="item"> Copy </li>
+          <li @click="addToggle" class="item"> {{open? '收起' : '展开'}} </li>
+          <li @click="addRemove" class="item"> Remove </li>
+          <li @click="addString" class="item"> String </li>
+          <li @click="addObject" class="item"> Object </li>
+          <li @click="addArray" class="item"> Array </li>
+        </ul>
+      </div>
+    </script>
+    <script type="text/x-template" id="item-btn">
+      <div class="item-container-options">
+        <div class="item-container-options-btn" >
+          <input type="file" id="item-container-file" class="input-file" accept="text/javascript, application/javascript" @change="loadFile">
+          <label class="icon-2x icon-folder-close-alt item-container-file" for="item-container-file"></label>
+        </div>
+        <div class="item-container-options-btn" @click="toJson">
+          <span class="icon-2x icon-ok"></span>
+        </div>
+      </div>
+    </script>
+    <div class="item-container">
+      <div class="item-container-text">
+        <ul>
+          <item-obj
+            :model="jsonData"
+            :cid="cid">
+          </item-obj>
+        </ul>
+      </div>
+      <item-btn></item-btn>
+      <div class="item-result-show">
+        <textarea>{{result}}</textarea>
+        <p>IamIronMan</p>
+      </div>
+    </div>
+    <script>
+      var gWindowHeight = window.outerHeight;
+      var setElementHeight = function (el , scale) {
+        var scale = scale || 1;
+        var dom = document.querySelector(el);
+        dom.style.height = gWindowHeight * scale + 'px';
+      }
+      
+      setElementHeight('.item-container');
+    </script>
+    
+    <script>
+      var Add = Vue.extend({
+        template: '#item-add',
+        replace: true,
+        props: {
+          open: Boolean,
+        },
+        data: function () {
+          return {
+            show: false,
+          }
+        },
+        methods: {
+          showChildType: function () {
+            this.show = !this.show;
+          },
+          addCopy: function () {
+            this.$dispatch('copy');
+          },
+          addToggle: function () {
+            this.$dispatch('toggle');
+          },
+          addRemove: function () {
+            this.$dispatch('remove');
+          },
+          addString: function () {
+            this.$dispatch('addChild','string');
+          },
+          addObject: function () {
+            this.$dispatch('addChild', 'object');
+          },
+          addArray: function () {
+            this.$dispatch('addChild', 'array');
+          },
+        },
+      });
+      
+      Vue.component('item-obj', {
+        template: '#item-obj',
+        replace: true,
+        props: {
+          model: Object,
+          cid: Number,
+        },
+        ready: function () {
+          var obj = this.model.content;
+          for (var key in obj) {
+            if ((typeof obj[key]) === 'string') {
+              this.stringList.push({
+                name: key,
+                content: obj[key],
+              });
+            }
+            if ((typeof obj[key]) === 'object') {
+              if (obj[key] instanceof Array) {
+                this.arrayList.push({
+                  name: key,
+                  content: obj[key], 
+                });
+              }
+              else {
+                this.objectList.push({
+                  name: key,
+                  content: obj[key],
+                });
+              }
+            }
+          }
+        },
+        data: function () {
+          return {
+            contentId: 0,
+            copyId: 0,
+            open: true,
+            name: this.model.name,
+            stringList:  [],
+            objectList: [],
+            arrayList: [],
+          }
+        },
+        components: {
+          'item-add': Add,
+        },
+        methods: {
+          initData: function () {
+            var obj = this.model.content;
+            this.stringList.splice(0,this.stringList.length);
+            this.objectList.splice(0,this.objectList.length);
+            this.arrayList.splice(0,this.arrayList.length);
+            for (var key in obj) {
+              if ((typeof obj[key]) === 'string') {
+                this.stringList.push({
+                  name: key,
+                  content: obj[key],
+                });
+              }
+              if ((typeof obj[key]) === 'object') {
+                if (obj[key] instanceof Array) {
+                  this.arrayList.push({
+                    name: key,
+                    content: obj[key], 
+                  });
+                }
+                else {
+                  this.objectList.push({
+                    name: key,
+                    content: obj[key],
+                  });
+                }
+              }
+            }
+          },
+          foucsThis: function () {
+            this.$dispatch('updateCid', this._uid);
+          },
+          blurThis: function () {
+            if (this.name == '') {
+              this.name = this.model.name;
+            }
+            this.$dispatch('updateCid', 0);
+          },
+          renderData: function () {
+            this.model.name = this.name;
+            this.model.content = {};
+            for (var i = 0; i < this.$children.length; i++) {
+              if (typeof this.$children[i].renderData !== 'undefined') {
+                this.$children[i].renderData();
+              }
+            }
+            for (var j = 0; j < this.stringList.length; j++) {
+              this.model.content[this.stringList[j].name] = this.stringList[j].content;
+            }
+            for (var j = 0; j < this.objectList.length; j++) {
+              this.model.content[this.objectList[j].name] = this.objectList[j].content;
+            }
+            for (var j = 0; j < this.arrayList.length; j++) {
+              this.model.content[this.arrayList[j].name] = this.arrayList[j].content;
+            }
+          },
+          
+        },
+        events: {
+          'addChild': function (type) {
+            if (type === 'object') {
+              this.objectList.push({
+                name: 'object' + this.contentId,
+                content: {}
+              });
+              this.contentId++;
+            }
+            if (type === 'string') {
+              this.stringList.push({
+                name: 'string' + this.contentId,
+                content: '',
+              });
+              this.contentId++;
+            }
+            if (type === 'array') {
+              this.arrayList.push({
+                name: 'array' + this.contentId,
+                content: [],
+              });
+              this.contentId++;
+            }
+          },
+          'copy': function () {
+            var index = this.$parent.objectList.indexOf(this.model);
+            
+            if (index  !== -1) {
+              this.renderData();
+              this.$parent.objectList.splice(index + 1, 0, {
+                name: this.model.name ? this.model.name + '-' + this.copyId++ : '',
+                content: this.model.content,
+              });
+            }
+          },
+          'toggle': function () {
+            this.open = !this.open;
+          },
+          'remove': function () {
+            if (confirm('sure remove?')) {
+              this.$parent.objectList.$remove(this.model);
+            } 
+          }
+        },
+      });
+      
+      Vue.component('item-str', {
+        template: '#item-str',
+        replace: true,
+        props: {
+          model: Object,
+          cid: Number,
+        },
+        data: function () {
+          return {
+            name: this.model.name,
+            content: this.model.content || 'value',
+            editName: false,
+            editContent: false,
+          }
+        },
+        methods: {
+          foucsThisName: function () {
+            this.editName = true;
+            this.editContent = false;
+            this.$dispatch('updateCid', this._uid);
+          },
+          blurThisName: function () {
+            if (this.name == '') {
+              this.name = this.model.name;
+            }
+            this.editName = false;
+            this.$dispatch('updateCid', 0);
+          },
+          foucsThisContent: function () {
+            this.editContent = true;
+            this.editName = false;
+            this.$dispatch('updateCid', this._uid);
+          },
+          blurThisContent: function () {
+            if (this.content == '') {
+              this.content = 'Input Here';
+            }
+            this.editContent = false;
+            this.$dispatch('updateCid', 0);
+          },
+          renderData: function () {
+            this.model.content = this.content;
+            this.model.name = this.name;
+          },
+          remove: function () {
+            if (confirm('sure remove?')) {
+              this.$parent.stringList.$remove(this.model);
+            } 
+          }
+        }
+      });
+      
+      Vue.component('item-arr', {
+        template: '#item-arr',
+        replace: true,
+        props: {
+          model: Object,
+          cid: Number,
+        },
+        ready: function () {
+          var arr = this.model.content;
+          for (var i = 0; i < arr.length; i++) {
+            if ((typeof arr[i]) === 'string') {
+              this.stringList.push({
+                content: arr[i],
+              });
+            }
+            if ((typeof arr[i]) === 'object') {
+              if (arr[i] instanceof Array) {
+                this.arrayList.push({
+                  content: arr[i], 
+                });
+              }
+              else {
+                this.objectList.push({
+                  content: arr[i],
+                });
+              }
+            }
+          }
+        },
+        data: function () {
+          return {
+            contentId: 0,
+            copyId: 0,
+            open: true,
+            name: this.model.name,
+            stringList:  [],
+            objectList: [],
+            arrayList: [],
+          }
+        },
+        components: {
+          'item-add': Add,
+        },
+        methods: {
+          foucsThis: function () {
+            this.$dispatch('updateCid', this._uid);
+          },
+          blurThis: function () {
+            if (this.name == '') {
+              this.name = this.model.name;
+            }
+            this.$dispatch('updateCid', 0);
+          },
+          renderData: function () {
+            this.model.name = this.name;
+            this.model.content = [];
+            for (var i = 0; i < this.$children.length; i++) {
+              if (typeof this.$children[i].renderData !== 'undefined') {
+                this.$children[i].renderData();
+              }
+            }
+            for (var j = 0; j < this.stringList.length; j++) {
+              this.model.content.push(this.stringList[j].content);
+            }
+            for (var j = 0; j < this.objectList.length; j++) {
+              this.model.content.push(this.objectList[j].content);
+            }
+            for (var j = 0; j < this.arrayList.length; j++) {
+              this.model.content.push(this.arrayList[j].content);
+            }
+          },
+          
+        },
+        events: {
+          'addChild': function (type) {
+            if (type === 'object') {
+              this.objectList.push({
+                content: {}
+              });
+              this.contentId++;
+            }
+            if (type === 'string') {
+              this.stringList.push({
+                content: '',
+              });
+              this.contentId++;
+            }
+            if (type === 'array') {
+              this.arrayList.push({
+                content: [],
+              });
+              this.contentId++;
+            }
+          },
+          'copy': function () {
+            var index = this.$parent.arrayList.indexOf(this.model);
+            
+            if (index  !== -1) {
+              this.renderData();
+              this.$parent.arrayList.splice(index + 1, 0, {
+                name: this.model.name ? this.model.name + '-' + this.copyId++ : '',
+                content: this.model.content,
+              });
+            }
+          },
+          'toggle': function () {
+            this.open = !this.open;
+          },
+          'remove': function () {
+            if (confirm('sure remove?')) {
+              this.$parent.arrayList.$remove(this.model);
+            } 
+          }
+        },
+      });
+      
+      Vue.component('item-btn', {
+        template: '#item-btn',
+        methods: {
+          loadFile: function (e) {
+            var self = this;
+            var js = e.target.files[0];
+            var reader = new FileReader();
+            reader.readAsText(js);
+            reader.onload = function () {
+              self.$dispatch('loadFile', this.result);
+            }
+          },
+          
+          toJson: function () {
+            this.$dispatch('toJson');
+          }
+        },
+      });
+      
+      var app = new Vue({
+        el: '#app',
+        data: {
+          jsonData: {
+            name: 'Data',
+            content: {},
+            isFirst: true
+          },
+          result: '',
+          cid: 0,
+        },
+        methods: {
+          cancleFoucs: function () {
+            this.cid = 0;
+          }
+        },
+        events: {
+          'loadFile': function (content) {
+            var head = document.querySelector('head');
+            var deleteDom = document.querySelector('#dataxxx');
+            if (deleteDom) {
+              head.removeChild(deleteDom);
+            }
+            var dataContainer = document.createElement('script');
+            dataContainer.id = 'dataxxx';
+            dataContainer.innerHTML = content;
+            
+            head.appendChild(dataContainer);
+            
+            console.log(window.Data);
+            this.jsonData.content = Data;
+            this.$children[0].initData();
+          },
+          'toJson' : function () {
+            console.log('2');
+            this.$children[0].renderData();
+            this.result = 'var Data =' + JSON.stringify(this.jsonData.content);
+          },
+          'updateCid': function (cid) {
+            this.cid = cid;
+            console.log(this.cid);
+          }
+        }
+      });
+    </script>
+	</body>
+</html>
