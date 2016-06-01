@@ -2,6 +2,10 @@
 ## 简介 ##
 这是我在学习web前端时自己写的一些东西，包括HTML，BootStrap,JS,AS等。</br>
 用webstorm编辑网站时，记得用git 中的 .gitignore 来忽略.idea文件夹
+### Components * ###
+一些组件化可以拿来用的东西，比较酷的东西
+### Jarvis * ###
+老贾，里面是一些比较智能化的东西，目前只有一个JSON文件生成器
 ### Toggle ###
 利用JQuery 和 BootStrap 制作的一个折叠功能的导航条，日后会增加重力效果
 ### CarouselFigure ###

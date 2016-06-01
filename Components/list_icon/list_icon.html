@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .cool-list {
+      border: 2px solid #DFDFDF;
+      width: 60px;
+      height: 40px;
+      text-align: center;
+      line-height: 10px;
+      overflow: hidden;
+    }
+    .cool-list-top {
+      display: inline-block;
+      border-top: 2px solid #DFDFDF;
+      width: 40px;
+      transform-origin:0% 50%;
+    }
+    .cool-list-top-end {
+      transform: rotate(32.5deg);
+    }
+    .top-close-animation {
+      animation-name: topListToClose;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes topListToClose {
+      0%   {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(32.5deg);
+      }
+
+    }
+    .top-open-animation {
+      animation-name: topListToOpen;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes topListToOpen {
+      0%   {
+        transform: rotate(32.5deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+
+    }
+    .cool-list-mid {
+      display: inline-block;
+      border-top: 2px solid #DFDFDF;
+      width: 40px;
+    }
+    .cool-list-mid-end {
+      margin-left: 80px;
+    }
+    .mid-close-animation {
+      animation-name: midListToClose;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes midListToClose {
+      0%   {
+        margin-left: 0px;
+      }
+      100% {
+        margin-left: 80px;
+      }
+    }
+    .mid-open-animation {
+      animation-name: midListToOpen;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes midListToOpen {
+      0%   {
+        margin-left: 80px;
+      }
+      100% {
+        margin-left: 0px;
+      }
+    }
+    .cool-list-bot {
+      display: inline-block;
+      border-top: 2px solid #DFDFDF;
+      width: 40px;
+      transform-origin:0% 50%;
+    }
+    .cool-list-bot-end {
+      transform: rotate(-32.5deg);
+    }
+    .bot-close-animation {
+      animation-name: botListToClose;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes botListToClose {
+      0%   {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(-32.5deg);
+      }
+    }
+    .bot-open-animation {
+      animation-name: botListToOpen;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: alternate;
+      animation-play-state: running;
+    }
+    @keyframes botListToOpen {
+      0%  {
+        transform: rotate(-32.5deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cool-list">
+  <span class="cool-list-top"></span>
+  <span class="cool-list-mid"></span>
+  <span class="cool-list-bot"></span>
+</div>
+
+点我
+<script>
+  function hasClass(obj, cls) {
+    return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+  }
+
+  function addClass(obj, cls) {
+    if (!this.hasClass(obj, cls)) obj.className += " " + cls;
+  }
+
+  function removeClass(obj, cls) {
+    if (hasClass(obj, cls)) {
+      var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+      obj.className = obj.className.replace(reg, '');
+    }
+  }
+
+  var listIcon = document.querySelector('.cool-list');
+  var isShow = false;
+  listIcon.addEventListener('click', function () {
+    var top = document.querySelector('.cool-list-top');
+    var mid = document.querySelector('.cool-list-mid');
+    var bot = document.querySelector('.cool-list-bot');
+
+    if (isShow) {
+      addClass(top, 'top-open-animation');
+      addClass(mid, 'mid-open-animation');
+      addClass(bot, 'bot-open-animation');
+
+      setTimeout(function () {
+        removeClass(top, 'top-open-animation');
+        removeClass(mid, 'mid-open-animation');
+        removeClass(bot, 'bot-open-animation');
+        removeClass(top, 'cool-list-top-end');
+        removeClass(mid, 'cool-list-mid-end');
+        removeClass(bot, 'cool-list-bot-end');
+      }, 490);
+      isShow = false;
+    }
+    else {
+      addClass(top, 'top-close-animation');
+      addClass(mid, 'mid-close-animation');
+      addClass(bot, 'bot-close-animation');
+
+      setTimeout(function () {
+        removeClass(top, 'top-close-animation');
+        removeClass(mid, 'mid-close-animation');
+        removeClass(bot, 'bot-close-animation');
+        addClass(top, 'cool-list-top-end');
+        addClass(mid, 'cool-list-mid-end');
+        addClass(bot, 'cool-list-bot-end');
+      }, 490);
+
+      isShow = true;
+    }
+  });
+</script>
+</body>
+</html>
