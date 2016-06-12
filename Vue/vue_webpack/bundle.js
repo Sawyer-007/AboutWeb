@@ -10243,22 +10243,28 @@
 		value: true
 	});
 
-	var _sArticle = __webpack_require__(5);
+	var _Item = __webpack_require__(5);
 
-	var _sArticle2 = _interopRequireDefault(_sArticle);
+	var _Item2 = _interopRequireDefault(_Item);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-		components: {
-			sArticle: _sArticle2.default
+		data: function data() {
+			return {};
 		},
-		props: ['attr']
+
+		components: {
+			Item: _Item2.default
+		}
 	};
 	// </script>
 	// <template>
 	// 	<div id="app" >
-	// 		<s-article :attr="attr" ></s-article>
+	// 		<input type="text">
+	// 		<ul>
+	// 			<item> </item>
+	// 		</ul>
 	// 	</div>
 	// </template>
 	//
@@ -10273,7 +10279,7 @@
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] components/sArticle.vue: named exports in *.vue files are ignored.")}
+	  console.warn("[vue-loader] components/Item.vue: named exports in *.vue files are ignored.")}
 	__vue_template__ = __webpack_require__(7)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
@@ -10284,7 +10290,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), false)
 	  if (!hotAPI.compatible) return
-	  var id = "./sArticle.vue"
+	  var id = "./Item.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10302,14 +10308,18 @@
 		value: true
 	});
 	// <template>
-	// 	<div id="article">
-	// 		{{attr}}
-	// 	</div>
+	// 	<li>
+	// 		{{text}}
+	// 	</li>
 	// </template>
 	//
 	// <script>
 	exports.default = {
-		props: ['attr']
+		data: function data() {
+			return {
+				text: 'hello'
+			};
+		}
 	};
 	// </script>
 
@@ -10317,13 +10327,13 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div id=\"article\">\n\t{{attr}}\n</div>\n";
+	module.exports = "\n<li>\n\t{{text}}\n</li>\n";
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div id=\"app\" >\n\t<s-article :attr=\"attr\" ></s-article>\n</div>\n";
+	module.exports = "\n<div id=\"app\" >\n\t<input type=\"text\">\n\t<ul>\n\t\t<item> </item>\n\t</ul>\n</div>\n";
 
 /***/ },
 /* 9 */
@@ -10335,10 +10345,12 @@
 		value: true
 	});
 	var data = {
-		title: 'ok'
+		article: {
+			sent: []
+		}
 	};
 	exports.default = {
-		data: data
+		title: 'ok'
 	};
 
 /***/ }

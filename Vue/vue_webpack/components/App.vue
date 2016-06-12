@@ -1,15 +1,22 @@
 <template>
 	<div id="app" >
-		<s-article :attr="attr" ></s-article>
+		<input type="text" placeholder="What's need to be done?">
+		<ul>
+			<item v-for="item in itemList"></item>
+		</ul>
 	</div>
 </template>
 
 <script>
-	import sArticle from './sArticle.vue'
+	import Item from './Item.vue'
 	export default {
-		components:{
-			sArticle,
+		data () {
+			return {
+				itemList: [],
+			}
 		},
-		props: ['attr']
+		components:{
+			Item,
+		},
 	}
 </script>
