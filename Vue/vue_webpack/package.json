@@ -26,5 +26,9 @@
   },
   "dependencies": {
     "vue": "^1.0.24"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --inline --hot --host 0.0.0.0",
+    "build": "webpack -p"
   }
 }

@@ -1,5 +1,7 @@
-module.exports = {
-  entry: './entry.js',
+var config = {
+  entry: [
+    './entry.js'
+  ],
   output: {
     path: __dirname,
     filename: 'bundle.js'
@@ -20,5 +22,8 @@ module.exports = {
   babel: {
     presets: ['es2015'],
     plugins: ['transform-runtime']
-  }
+  },
 }
+
+module.exports = config;
+
