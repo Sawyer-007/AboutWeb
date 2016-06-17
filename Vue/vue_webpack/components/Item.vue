@@ -1,7 +1,8 @@
 <style>
 	.item {
 		position: relative;
-		height: 50px;
+		padding: 15px;
+		height: 19px;
 		font-size: 1.125em;
 		border-bottom: 1px solid #dfdfdf;
 	}
@@ -23,26 +24,18 @@
 		border-radius: 50%;
 		height: 24px;
 		width: 24px;
+
+		text-align: center;
 	}
 	.item-toggle span {
-		position: absolute;
-		top: 4px;
-		left: 4px;
+		line-height: 24px;
 		color: #5cb85c;
 	}
 	.item-view {
-		position: absolute;
-		top: 10px;
-		height: 30px;
-		width: 95%;
-		padding-left: 15px;
+
 	}
 	.item-text {
-		position: absolute;
-		height: 30px;
-		top: 0;
-		left: 55px;
-		line-height: 26px;
+
 	}
 	.item-text-finish {
 		text-decoration: line-through;
