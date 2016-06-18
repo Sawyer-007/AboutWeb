@@ -33,8 +33,9 @@ CSS学习过程中的实验室</br>
 1. 首先介绍一个学习React的网站翻译自官网实时更新[http://reactjs.cn/react/docs/getting-started.html](http://reactjs.cn/react/docs/getting-started.html)
 2. comment.html 为第一页中 comment 例子的实例 主要介绍了React组件制的工作机制
 3. table.html 为第二页中 table 的例子 state 修改为可变属性
-### Vuejs ###
-1. 即将更新
+### Vue ###
+1. Vue + Bootstrap 手工实现的分页
+2. Vue + Webpack 写了一个TodoMVC
 
 ### Play_pagination ###
 + Bootstrap + vuejs 对数据库数据的操作
