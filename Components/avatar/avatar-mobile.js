@@ -19,12 +19,37 @@ $.extend(AvatarSelect.prototype, {
 		
 		var html = '<canvas id="'+this.id+'-bk" height="'+this.height+'" width="'+this.width+'"></canvas>';
 		dom.after(html);
+		this.bkCtx = document.getElementById(this.id + '-bk').getContext('2d');
 		
 		this.addPreview(this.id);
-		this.fileSelect = new FileSelect($('input[data-for="'+this.id+'"]'), this);
 		this.setStyle();
 		this.addFunction(this.id);
 		
+	},
+	setImg: function (path) {
+	  var self = this;
+	  var img = new Image();
+    img.onload = function() {
+      var imgScale = (img.height / img.width).toFixed(3);
+      var imgHeight = 0;
+      var imgWidth = 0;
+      var dX = 0; //destination the start position in x
+      var dY = 0; //destination the start position in y
+      if (imgScale >= 1) {
+        imgHeight = self.height;
+        imgWidth = Math.floor(imgHeight / imgScale);
+        dX = (self.width - imgWidth) / 2;
+      }
+      else {
+        imgWidth = self.width;
+        imgHeight = imgWidth * imgScale;
+        dY = (self.height - imgHeight) / 2;
+      }
+      self.bkCtx.clearRect(0, 0, self.width, self.height);
+      self.bkCtx.drawImage(img, 0, 0, img.width, img.height, dX, dY, imgWidth, imgHeight);
+      self.drawOpt(document.getElementById(self.id).getContext('2d'));
+    }
+    img.src = path;
 	},
 	setStyle: function () {
 		this.dom.css({
@@ -78,7 +103,7 @@ $.extend(AvatarSelect.prototype, {
 		canvasCtx.beginPath();
 		canvasCtx.fillStyle = 'rgba(255, 255, 255, 1)';
 		canvasCtx.strokeStyle = 'rgba(0, 0, 0, 1)';
-		canvasCtx.arc(this.avatarX + this.avatarR * 1.707, this.avatarY + this.avatarR * 1.707, 5, 0, Math.PI * 2, true);
+		canvasCtx.arc(this.avatarX + this.avatarR * 1.707, this.avatarY + this.avatarR * 1.707, 12, 0, Math.PI * 2, true);
 		canvasCtx.fill();
 		canvasCtx.stroke();	
 		
@@ -90,29 +115,29 @@ $.extend(AvatarSelect.prototype, {
 		var self = this;
 		var oriX = 0;
 		var oriY = 0;
-		$('#' + id).bind('mousemove', function(e) {
-			if ((Math.pow(e.offsetX - (self.avatarX + self.avatarR * 1.707), 2) + Math.pow(e.offsetY - (self.avatarY + self.avatarR * 1.707), 2)) <= 25) {
-				$(this).css('cursor', 'nwse-resize');
-			} else if ((Math.pow(e.offsetX - (self.avatarX + self.avatarR), 2) + Math.pow(e.offsetY - (self.avatarY + self.avatarR), 2)) <= Math.pow(self.avatarR, 2)) {
-				$(this).css('cursor', 'move');
-			} else {
-				$(this).css('cursor', 'auto');
-			}
-		});
-		$('#' + id).bind('mousedown', function(e) {
-			if ((Math.pow(e.offsetX - (self.avatarX + self.avatarR * 1.707), 2) + Math.pow(e.offsetY - (self.avatarY + self.avatarR * 1.707), 2)) <= 25) {
+		$('#' + id).bind('touchstart', function(e) {
+      var element = e.target;
+      var offsetX = 0;
+      var offsetY = 0;
+      
+      if (element.offsetParent) {
+        do {
+          offsetX += element.offsetLeft;
+          offsetY += element.offsetTop;
+        } while ((element = element.offsetParent));
+      }
+      
+		  var xp = e.originalEvent.changedTouches[0].clientX - offsetX; 
+		  var yp = e.originalEvent.changedTouches[0].clientY - offsetY; 
+			if ((Math.pow(xp - (self.avatarX + self.avatarR * 1.707), 2) + Math.pow(yp - (self.avatarY + self.avatarR * 1.707), 2)) <= 256) {
 				self.canResize = true;
-				$(this).css('cursor', 'nwse-resize');
-			} else if ((Math.pow(e.offsetX - (self.avatarX + self.avatarR), 2) + Math.pow(e.offsetY - (self.avatarY + self.avatarR), 2)) <= Math.pow(self.avatarR, 2)) {
+			} else if ((Math.pow(xp - (self.avatarX + self.avatarR), 2) + Math.pow(yp - (self.avatarY + self.avatarR), 2)) <= Math.pow(self.avatarR, 2)) {
 				self.canMove = true;
-				$(this).css('cursor', 'move');
-				oriX = e.offsetX;
-				oriY = e.offsetY;
-			} else {
-				$(this).css('cursor', 'auto');
+				oriX = xp;
+				oriY = yp;
 			}
 		});
-		$('#' + id).bind('mouseup', function(e) {
+		$('#' + id).bind('touchend', function(e) {
 			if ((self.avatarD > Math.min(self.height, self.width) - Math.max(self.avatarX, self.avatarY)) && self.canResize) {
 				self.avatarD = Math.min(self.height, self.width) - Math.max(self.avatarX, self.avatarY);
 				self.drawOpt();
@@ -120,17 +145,23 @@ $.extend(AvatarSelect.prototype, {
 			self.canResize = false;
 			self.canMove = false;
 		});
-		$('#' + id).bind('mouseout', function() {
-			if ((self.avatarD > Math.min(self.height, self.width) - Math.max(self.avatarX, self.avatarY)) && self.canResize) {
-				self.avatarD = Math.min(self.height, self.width) - Math.max(self.avatarX, self.avatarY);
-				self.drawOpt();
-			}
-			self.canResize = false;
-			self.canMove = false;
-		});
-		$('#' + id).bind('mousemove', function(e) {
+		$('#' + id).bind('touchmove', function(e) {
+		  e.preventDefault();
+		  var element = e.target;
+      var offsetX = 0;
+      var offsetY = 0;
+      
+      if (element.offsetParent) {
+        do {
+          offsetX += element.offsetLeft;
+          offsetY += element.offsetTop;
+        } while ((element = element.offsetParent));
+      }
+      
+      var xp = e.originalEvent.changedTouches[0].clientX - offsetX; 
+      var yp = e.originalEvent.changedTouches[0].clientY - offsetY; 
 			if (self.canResize) {
-				self.avatarD = e.offsetY - (self.avatarY + self.avatarR * 1.707) + self.avatarD;
+				self.avatarD = yp - (self.avatarY + self.avatarR * 1.707) + self.avatarD;
 				self.drawOpt();
 			} else if (self.canMove) {
 				if (self.avatarY + self.avatarD > self.height) {
@@ -145,11 +176,11 @@ $.extend(AvatarSelect.prototype, {
 				if (self.avatarY < 0) {
 					self.avatarY = 0;
 				}
-				self.avatarX = e.offsetX - oriX + self.avatarX;
-				self.avatarY = e.offsetY - oriY + self.avatarY;
+				self.avatarX = xp - oriX + self.avatarX;
+				self.avatarY = yp - oriY + self.avatarY;
 				self.drawOpt();
-				oriX = e.offsetX;
-				oriY = e.offsetY;
+				oriX = xp;
+				oriY = yp;
 			}
 		});
 	},
@@ -186,60 +217,7 @@ $.extend(AvatarPreview.prototype, {
 	}
 });
 
-var FileSelect = function (dom, container) {
-	this.init(dom, container);
-};
-$.extend(FileSelect.prototype, {
-	
-	init: function (dom, container) {
-		this.container = container;
-		this.dom = dom;
-		this.target = document.getElementById(dom.attr("data-for") + '-bk');
-		this.addFunction(dom);
-	},
-	addFunction: function () {
-		var self = this;
-		
-		this.dom.bind('change', function(e) {
-			var canvas = self.target.getContext('2d');
-			var imgFile = e.target.files[0];
-			var canvasWidth = $('#' + self.dom.attr("data-for") + '-bk').attr("width");
-			var canvasHeight = $('#' + self.dom.attr("data-for") + '-bk').attr("height");
-			if (!imgFile) {
-				console.log('Cancel');
-				return;
-			}
-			var reader = new FileReader();
-			reader.readAsDataURL(imgFile);
-			reader.onload = function(e) {
-				var img = new Image();
-				img.onload = function() {
-				  var imgScale = (img.height / img.width).toFixed(3);
-				  console.log(img.height, img.width);
-          var imgHeight = 0;
-          var imgWidth = 0;
-          var dX = 0; //destination the start position in x
-          var dY = 0; //destination the start position in y
-          if (imgScale >= 1) {
-            imgHeight = canvasHeight;
-            imgWidth = Math.floor(imgHeight / imgScale);
-            dX = (canvasWidth - imgWidth) / 2;
-          }
-          else {
-            imgWidth = canvasWidth;
-            imgHeight = imgWidth * imgScale;
-            dY = (canvasHeight - imgHeight) / 2;
-          }
-					canvas.clearRect(0, 0, canvasWidth, canvasHeight)
-					canvas.drawImage(img, 0, 0, img.width, img.height, dX, dY, imgWidth, imgHeight);
-					self.container.drawOpt(document.getElementById(self.container.id).getContext('2d'));
-				}
-				img.src = this.result;
-			}
-		});
-	}
-});
-
+var syzAvatar;
 $(function () {
-	new AvatarSelect($('.avatar-select'));
+	syzAvatar = new AvatarSelect($('.avatar-select'));
 })
