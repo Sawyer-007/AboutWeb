@@ -44,160 +44,74 @@
 /* 0 */
 /***/ function(module, exports) {
 
-	;__weex_define__("@weex-component/3dd59c0c0349afe15d630f3f7d217480", [], function(__weex_require__, __weex_exports__, __weex_module__){
+	;__weex_define__("@weex-component/97db1aa435546cd0160279c2d4fe41f5", [], function(__weex_require__, __weex_exports__, __weex_module__){
 
 	;
-	__weex_module__.exports = {
+	  __weex_module__.exports = {
 	    data: function () {return {
-	      intervalValue:"1000",
-	      isShowIndicators:"true",
-	      isAutoPlay:"true",
-	      itemList: [
-	        {title: 'Java', pictureUrl: 'http://t.cn/RGE3uo9'},
-	        {title: 'Objective C', pictureUrl: 'http://t.cn/RGE31hq'},
-	        {title: 'JavaScript', pictureUrl: 'http://t.cn/RGE3AJt'}
-	      ]
+	      list: [
+	        {event: 'Li Lei'},
+	        {event: 'Han Meimei'},
+	      ],
+	      start: 0,
+	      translateData: 0,
 	    }},
 	    methods: {
-	      goWeexSite: function () {
-	        this.$openURL('http://alibaba.github.io/weex/')
+	      test: function (e) {
+	        console.log(e.changedTouches[0].screenX);
+	      },
+	      recodePos: function (e) {
+	        this.start = e.changedTouches[0].screenX;
+	      },
+	      translateEl: function () {
+
 	      }
 	    }
-	}
+	  }
 
 	;__weex_module__.exports.template = __weex_module__.exports.template || {}
 	;Object.assign(__weex_module__.exports.template, {
-	  "type": "div",
-	  "style": {
-	    "flexDirection": "column"
-	  },
+	  "type": "container",
 	  "children": [
 	    {
-	      "type": "slider",
+	      "type": "container",
 	      "classList": [
-	        "slider"
+	        "list"
 	      ],
-	      "attr": {
-	        "interval": function () {return this.intervalValue},
-	        "autoPlay": function () {return this.isAutoPlay}
-	      },
+	      "repeat": function () {return this.list},
 	      "children": [
 	        {
-	          "type": "div",
-	          "classList": [
-	            "slider-pages"
-	          ],
-	          "repeat": function () {return this.itemList},
+	          "type": "container",
 	          "events": {
-	            "click": "goWeexSite"
+	            "touchstart": "recodePos",
+	            "touchmove": "test"
 	          },
-	          "children": [
-	            {
-	              "type": "image",
-	              "classList": [
-	                "thumb"
-	              ],
-	              "attr": {
-	                "src": function () {return this.pictureUrl}
-	              }
-	            },
-	            {
-	              "type": "text",
-	              "classList": [
-	                "title"
-	              ],
-	              "attr": {
-	                "value": function () {return this.title}
-	              }
-	            }
-	          ]
-	        }
-	      ]
-	    },
-	    {
-	      "type": "div",
-	      "classList": [
-	        "container"
-	      ],
-	      "events": {
-	        "click": "goWeexSite"
-	      },
-	      "children": [
-	        {
-	          "type": "div",
 	          "classList": [
-	            "cell"
+	            "content"
 	          ],
 	          "children": [
 	            {
-	              "type": "image",
+	              "type": "text",
 	              "classList": [
-	                "thumb"
+	                "text"
 	              ],
 	              "attr": {
-	                "src": "http://t.cn/RGE3AJt"
+	                "value": function () {return this.event}
 	              }
 	            },
 	            {
-	              "type": "text",
+	              "type": "container",
 	              "classList": [
-	                "title"
+	                "icon"
 	              ],
-	              "attr": {
-	                "value": "JavaScript"
-	              }
-	            }
-	          ]
-	        },
-	        {
-	          "type": "div",
-	          "classList": [
-	            "cell"
-	          ],
-	          "children": [
-	            {
-	              "type": "image",
-	              "classList": [
-	                "thumb"
-	              ],
-	              "attr": {
-	                "src": "http://t.cn/RGE3uo9"
-	              }
-	            },
-	            {
-	              "type": "text",
-	              "classList": [
-	                "title"
-	              ],
-	              "attr": {
-	                "value": "Java"
-	              }
-	            }
-	          ]
-	        },
-	        {
-	          "type": "div",
-	          "classList": [
-	            "cell"
-	          ],
-	          "children": [
-	            {
-	              "type": "image",
-	              "classList": [
-	                "thumb"
-	              ],
-	              "attr": {
-	                "src": "http://t.cn/RGE31hq"
-	              }
-	            },
-	            {
-	              "type": "text",
-	              "classList": [
-	                "title"
-	              ],
-	              "attr": {
-	                "value": "Objective C"
-	              }
+	              "children": [
+	                {
+	                  "type": "text",
+	                  "attr": {
+	                    "value": "Finish"
+	                  }
+	                }
+	              ]
 	            }
 	          ]
 	        }
@@ -207,34 +121,34 @@
 	})
 	;__weex_module__.exports.style = __weex_module__.exports.style || {}
 	;Object.assign(__weex_module__.exports.style, {
-	  "cell": {
-	    "marginTop": 10,
-	    "marginLeft": 10,
-	    "flexDirection": "row"
+	  "list": {
+	    "position": "relative",
+	    "height": 140,
+	    "width": 750,
+	    "borderStyle": "solid",
+	    "borderBottomWidth": 2,
+	    "borderColor": "#dfdfdf",
+	    "overflow": "hidden"
 	  },
-	  "thumb": {
-	    "width": 200,
-	    "height": 200
+	  "text": {
+	    "fontSize": 34,
+	    "lineHeight": 138
 	  },
-	  "title": {
-	    "textAlign": "center",
-	    "flex": 1,
-	    "color": "#808080",
-	    "fontSize": 50
+	  "icon": {
+	    "position": "absolute",
+	    "right": 0,
+	    "top": 10,
+	    "height": 120,
+	    "lineHeight": 120,
+	    "borderLeftWidth": 2
 	  },
-	  "slider": {
-	    "margin": 18,
-	    "width": 714,
-	    "height": 230
-	  },
-	  "slider-pages": {
-	    "flexDirection": "row",
-	    "width": 714,
-	    "height": 200
+	  "content": {
+	    "width": 1000,
+	    "transform": "scaleX(1)"
 	  }
 	})
 	})
-	;__weex_bootstrap__("@weex-component/3dd59c0c0349afe15d630f3f7d217480", {
+	;__weex_bootstrap__("@weex-component/97db1aa435546cd0160279c2d4fe41f5", {
 	  "transformerVersion": "0.3.1"
 	},undefined)
 
