@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <title>Resume</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei UI";
+            font-weight: 200;
+        }
+        h4 {
+            margin: 0;
+            padding:  10px 0    ;
+        }
+        h4 label {
+            color: #aeaeae;
+            font-size: 14px;
+            font-weight: 200;
+        }
+        .title-extra {
+            display: inline-block;
+            float: right;
+        }
+        p {
+            margin: 10px auto;
+        }
+        .container {
+            position: relative;
+            margin: 0 auto;
+            padding:  0 30px;
+        }
+        .header {
+            position: relative;
+            text-align: center;
+        }
+        .header label {
+            color: #8e8e8e;
+            font-size: 16px;
+            font-weight: 200;
+        }
+        .title {
+            border-bottom: 2px solid #DFDFDF;
+            margin-bottom: 10px;
+        }
+        .info {
+            position: relative;
+            display: inline-block;
+            width: 45%;
+            padding: 2px 4px;
+        }
+        .time-log {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .time-event {
+            position: relative;
+            display: inline-block;
+            border-left: 2px solid #DFDFDF;
+            padding-left: 20px;
+        }
+        .time {
+            margin-bottom: 5px;
+        }
+        .info-row {
+            padding:  8px 0;
+            line-height: 24px;
+        }
+        .row-title {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            width: 15%;
+        }
+        .row-content {
+            position: relative;
+            display: inline-block;
+            border-left: 2px solid #DFDFDF;
+            padding-left: 20px;
+            width: 80%;
+        }
+        .skill-name {
+            position: relative;
+            display: inline-block;
+            width: 15%;
+        }
+        .skill-explain {
+            position: relative;
+            display: inline-block;
+            width: 60%;
+        }
+        .skill-rank {
+            position: relative;
+            display: inline-block;
+            width: 20%;
+            text-align: center;
+        }
+        .row {
+            position: relative;
+        }
+        .thanks {
+            position: absolute;
+            bottom: 10px;
+            right: 40px;
+            color: #c9302c;
+            font-size: 32px;
+            font-family: "Lucida Handwriting";
+            transform: rotate3d(0, 0, 1, -30deg);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>简历 <label>Resume</label></h2>
+    </div>
+    <div class="personal">
+        <div class="title">
+            <h4>个人 <label>Personal</label></h4>
+        </div>
+        <div class="info">
+            <label>姓名</label>
+            <label>孙耀宗</label>
+        </div>
+        <div class="info">
+            <label>电话</label>
+            <label>15887095408</label>
+        </div>
+        <div class="info">
+            <label>学校</label>
+            <label>成都信息工程大学</label>
+        </div>
+        <div class="info">
+            <label>专业</label>
+            <label>软件工程</label>
+        </div>
+        <div class="info">
+            <label>Github</label>
+            <label><a href="https://github.com/Sawyer-007">@Sawyer-007</a></label>
+        </div>
+        <div class="info">
+            <label>Blog</label>
+            <label><a href="http://sawyer-007.github.io/">http://sawyer-007.github.io/</a></label>
+        </div>
+        <div class="info">
+            <label>E-mail</label>
+            <label>sawyer_007@outlook.com</label>
+        </div>
+    </div>
+    <div class="">
+        <div class="title">
+            <h4>应聘相关 <label>Apply</label></h4>
+        </div>
+        <div class="info">
+            <label>应聘职位</label>
+            <label>前端开发工程师</label>
+        </div>
+    </div>
+    <div>
+        <div class="title">
+            <h4>大学经历 <label>College</label></h4>
+        </div>
+        <div class="time">
+            <div class="time-log">2013.09</div>
+            <div class="time-event">
+                <p>加入ACM校队</p>
+                <p>电子科技大学邀请赛三等奖</p>
+                <p>西南交通大学邀请赛三等奖</p>
+            </div>
+        </div>
+        <div class="time">
+            <div class="time-log">2014.06</div>
+            <div class="time-event">
+                <p>参与数据存储项目（Python、数据库、Linux 、Hadoop）</p>
+                <p>用Python脚本实现了一些对数据库的操作，期间熟悉了操作和配置Linux、Mysql</p>
+            </div>
+        </div>
+        <div class="time">
+            <div class="time-log">2015.10</div>
+            <div class="time-event">
+                <p>认识前端，学习前端</p>
+            </div>
+        </div>
+        <div class="time">
+            <div class="time-log">2016.03</div>
+            <div class="time-event">
+                <p>百词斩实习（前端实习生岗位）</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="title">
+            <h4>项目经验
+                <label>Project</label>
+                <div class="title-extra">
+                    <span class="icon icon-circle-blank"></span>
+                    <span>合作</span>
+                    <span class="icon icon-circle"></span>
+                    <span>个人</span>
+                </div>
+            </h4>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-circle-blank"></span>
+            <label>参与漂亮口语项目[微信公众号：百词斩口语]：前期阶段用Ruby On Rails作为服务端，前端框架主要用到了Vue、JQuery。后台的主要功能是英语数据的录入，我们将数据中出现频率高的数据结构组件化，这样极大的提高了开发效率。客户端分为移动Web端，App端。Web端的写法用到JQuery结合Javascript面向的对象的方法 或者 Vue 组件化的方式来制作。App端则是用Hybird的方式来开发。我作为这个项目的参与者基本所有内容都有涉及，服务端可以独立写接口，Web端可以独立制作展示界面，Hybird开发方式可以独立制作部分内容，实现本地缓存、录音、拍照等功能。</label>
+            <p><a href="http://cg.baicizhan.com/topics/test/86">Web端作品一</a></p>
+            <p><a href="http://cg.baicizhan.com/topics/test/311">Web端作品二</a></p>
+            <p><a href="http://cg.baicizhan.com/topics/test/42">Web端作品三</a></p>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-circle"></span>
+            <label>独自用NodeJS作为后台用Express框架，制作了一个具有本校图书馆图书到期归还提醒，预定图书入架提醒的简易系统，这个简易系统的信息来自Node爬虫，并且加入含有邮箱验证的用户系统。</label>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-circle"></span>
+            <label>制作了头像裁剪工具<a href="https://github.com/Sawyer-007/AboutWeb/tree/master/Components/avatar">avatar.js</a>,分为移动端与Web端版本，已应用。</label>
+        </div>
+    </div>
+    <div>
+        <div class="title">
+            <h4>技能相关 <label>Knowledge</label></h4>
+        </div>
+        <div class="info-row">
+            <div class="row-title">
+                基础技能
+            </div>
+            <div class="row-content">
+                <div>
+                    <span class="skill-name">数据结构</span>
+                    <span class="skill-explain"></span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-half-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">数据库操作</span>
+                    <span class="skill-explain">SQL语句 数据库配置</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">Linux</span>
+                    <span class="skill-explain">环境搭建 熟悉常用命令</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">计算机基础</span>
+                    <span class="skill-explain"></span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="row-title">
+                前端技能
+            </div>
+            <div class="row-content">
+                <div>
+                    <span class="skill-name">JavaScript</span>
+                    <span class="skill-explain">面向对象 DOM操作 Canvas</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">CSS3</span>
+                    <span class="skill-explain">布局 动画 兼容性</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-half-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">Vue</span>
+                    <span class="skill-explain">能够熟练运用Vue框架 Vue-route Webpack</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-half-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+                <div>
+                    <span class="skill-name">后端语言</span>
+                    <span class="skill-explain">RubyOnRails NodeJS 数据库连接 接口</span>
+                    <div class="skill-rank">
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star"></span>
+                        <span class="icon icon-star-empty"></span>
+                        <span class="icon icon-star-empty"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="title">
+            <h4>其他 <label>Others</label></h4>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-angle-right"></span>
+            <label>学习能力和接受新事物的能力强</label>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-angle-right"></span>
+            <label>对细节方面的东西比较较真，例如不容许一个像素的误差</label>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-angle-right"></span>
+            <label>喜欢极简的设计风格</label>
+        </div>
+        <span class="thanks">Thanks</span>
+    </div>
+</div>
+</body>
+</html>
