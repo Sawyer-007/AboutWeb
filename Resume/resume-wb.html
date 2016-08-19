@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/font-awesome.min.css" rel="stylesheet">
     <title>Resume</title>
     <style>
         body {
@@ -10,9 +10,13 @@
             font-family: "Microsoft YaHei UI";
             font-weight: 200;
         }
+        a {
+            text-decoration: none;
+            color: #0000ee;
+        }
         h4 {
             margin: 0;
-            padding:  10px 0    ;
+            padding: 10px 0;
         }
         h4 label {
             color: #aeaeae;
@@ -54,6 +58,7 @@
             position: relative;
             display: inline-block;
             vertical-align: top;
+            margin-right: 16px;
         }
         .time-event {
             position: relative;
@@ -110,6 +115,26 @@
             font-family: "Lucida Handwriting";
             transform: rotate3d(0, 0, 1, -30deg);
         }
+        .project-title {
+            position: relative;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+        .project-list {
+            position: relative;
+            display: inline-block;
+            width: 45%;
+            margin: 4px 2%;
+            text-align: left;
+            vertical-align: top;
+        }
+        .project-title-right {
+            position: relative;
+            margin-left: 12px;
+        }
+        .project-title-right a {
+            margin: 0 8px;
+        }
     </style>
 </head>
 <body>
@@ -124,6 +149,10 @@
         <div class="info">
             <label>姓名</label>
             <label>孙耀宗</label>
+        </div>
+        <div class="info">
+            <label>应聘职位</label>
+            <label>前端开发工程师</label>
         </div>
         <div class="info">
             <label>电话</label>
@@ -148,15 +177,6 @@
         <div class="info">
             <label>E-mail</label>
             <label>sawyer_007@outlook.com</label>
-        </div>
-    </div>
-    <div class="">
-        <div class="title">
-            <h4>应聘相关 <label>Apply</label></h4>
-        </div>
-        <div class="info">
-            <label>应聘职位</label>
-            <label>前端开发工程师</label>
         </div>
     </div>
     <div>
@@ -204,19 +224,46 @@
             </h4>
         </div>
         <div class="info-row">
-            <span class="icon icon-circle-blank"></span>
-            <label>参与漂亮口语项目[微信公众号：百词斩口语]：前期阶段用Ruby On Rails作为服务端，前端框架主要用到了Vue、JQuery。后台的主要功能是英语数据的录入，我们将数据中出现频率高的数据结构组件化，这样极大的提高了开发效率。客户端分为移动Web端，App端。Web端的写法用到JQuery结合Javascript面向的对象的方法 或者 Vue 组件化的方式来制作。App端则是用Hybird的方式来开发。我作为这个项目的参与者基本所有内容都有涉及，服务端可以独立写接口，Web端可以独立制作展示界面，Hybird开发方式可以独立制作部分内容，实现本地缓存、录音、拍照等功能。</label>
-            <p><a href="http://cg.baicizhan.com/topics/test/86">Web端作品一</a></p>
-            <p><a href="http://cg.baicizhan.com/topics/test/311">Web端作品二</a></p>
-            <p><a href="http://cg.baicizhan.com/topics/test/42">Web端作品三</a></p>
+            <div>
+                <span class="icon icon-circle-blank"></span>
+                <span class="project-title">百词斩漂亮口语</span>
+                <span class="project-title-right">
+                    <i class="icon-globe"></i>
+                    <a href="http://cg.baicizhan.com/topics/test/86">Deom 1 Vue </a>
+                    <a href="http://cg.baicizhan.com/topics/test/311"> Deom 2 Vue </a>
+                    <a href="http://cg.baicizhan.com/topics/test/42"> Deom 3 Javascript</a>
+                </span>
+            </div>
+            <span class="project-list"><i class="icon-angle-right"></i> 用DCloud做移动端Hybird开发，利用Vue框架，独立完成发音练习模块</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 移动Web端利用Javascript面向对象的方式或者Vue组件制作Demo</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 利用CSS3完成诸多细节优化</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 实现视频在移动端竖屏模式下可以直接进入全屏</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 制作英语数据录入系统，将常用的数据诸如英语段落、单词利用Vue组件化</span>
         </div>
         <div class="info-row">
-            <span class="icon icon-circle"></span>
-            <label>独自用NodeJS作为后台用Express框架，制作了一个具有本校图书馆图书到期归还提醒，预定图书入架提醒的简易系统，这个简易系统的信息来自Node爬虫，并且加入含有邮箱验证的用户系统。</label>
+            <div>
+                <span class="icon icon-circle"></span>
+                <span class="project-title">Kids少儿英语游戏</span>
+            </div>
+            <span class="project-list"><i class="icon-angle-right"></i> 利用Vue、Vue-route、Vuex框架制作的一个SPA</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 在维护组件间的切换时，引入了Vue-route</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 在维护组件间数据传递时引入了Vuex</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 利用了Webpack和ES6的新特性，箭头函数、解构复制等</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 加入资源列表解决，预加载资源</span>
         </div>
         <div class="info-row">
-            <span class="icon icon-circle"></span>
-            <label>制作了头像裁剪工具<a href="https://github.com/Sawyer-007/AboutWeb/tree/master/Components/avatar">avatar.js</a>,分为移动端与Web端版本，已应用。</label>
+            <div>
+                <span class="icon icon-circle"></span>
+                <span class="project-title">头像裁剪工具</span>
+                <span class="project-title-right">
+                    <i class="icon-github"></i>
+                    <a href="https://github.com/Sawyer-007/AboutWeb/tree/master/Components/avatar">GitHub</a>
+                </span>
+            </div>
+            <span class="project-list"><i class="icon-angle-right"></i> 利用canvas制作移动端、web端头像裁剪组件</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 近期打算利用DOM操作取代canvas的选择框操作</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 从起初的依赖于JQuery到现在版本的无依赖版本，了解了许多getAttribute、insertAdjacentHTML等新API</span>
+            <span class="project-list"><i class="icon-angle-right"></i> 解决在移动端Hybird开发时，base64转换为文件通过Ajax上传到服务器的问题</span>
         </div>
     </div>
     <div>
@@ -230,7 +277,7 @@
             <div class="row-content">
                 <div>
                     <span class="skill-name">数据结构</span>
-                    <span class="skill-explain"></span>
+                    <span class="skill-explain">队列 栈 排序 树</span>
                     <div class="skill-rank">
                         <span class="icon icon-star"></span>
                         <span class="icon icon-star"></span>
@@ -263,7 +310,7 @@
                 </div>
                 <div>
                     <span class="skill-name">计算机基础</span>
-                    <span class="skill-explain"></span>
+                    <span class="skill-explain">操作系统 计算机网络</span>
                     <div class="skill-rank">
                         <span class="icon icon-star"></span>
                         <span class="icon icon-star"></span>
@@ -281,7 +328,7 @@
             <div class="row-content">
                 <div>
                     <span class="skill-name">JavaScript</span>
-                    <span class="skill-explain">面向对象 DOM操作 Canvas</span>
+                    <span class="skill-explain">面向对象 DOM事件 ES6</span>
                     <div class="skill-rank">
                         <span class="icon icon-star"></span>
                         <span class="icon icon-star"></span>
@@ -292,7 +339,7 @@
                 </div>
                 <div>
                     <span class="skill-name">CSS3</span>
-                    <span class="skill-explain">布局 动画 兼容性</span>
+                    <span class="skill-explain">布局 动画 兼容性 Canvas</span>
                     <div class="skill-rank">
                         <span class="icon icon-star"></span>
                         <span class="icon icon-star"></span>
@@ -343,6 +390,10 @@
         <div class="info-row">
             <span class="icon icon-angle-right"></span>
             <label>喜欢极简的设计风格</label>
+        </div>
+        <div class="info-row">
+            <span class="icon icon-angle-right"></span>
+            <label>魔兽世界、钢铁侠、摄影爱好者</label>
         </div>
         <span class="thanks">Thanks</span>
     </div>
