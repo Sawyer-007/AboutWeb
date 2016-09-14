@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+        #demo {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            position: relative;
+            border: 2px solid #333;
+        }
+        #demo:after,#demo:before {
+            border: solid transparent;
+            content: ' ';
+            height: 0;
+            left: 100%;
+            position: absolute;
+            width: 0;
+        }
+        #demo:after {
+            border-width: 10px;
+            border-left-color: #fff;
+            top: 20px;
+        }
+        #demo:before {
+            border-width: 12px;
+            border-left-color: #000;
+            top: 18px;
+        }
+    </style>
+</head>
+<body>
+<p>摘自<a href="https://segmentfault.com/a/1190000006887979">https://segmentfault.com/a/1190000006887979</a></p>
+    <div id="demo"></div>
+</body>
+</html>
