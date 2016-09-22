@@ -1,0 +1,57 @@
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+  </style>
+</head>
+<body>
+  <ul>
+    <li><a href="#/page0">第0页</a></li>
+    <li><a href="#/page1">第1页</a></li>
+    <li><a href="#/page2" data-mode="replace">第2页</a></li>
+  </ul>
+  <script>
+    var Parse = (function () {
+      var doms = document.querySelectorAll('a');
+      for (var i = 0, len = doms.length; i < len; i++) {
+        var dom = doms[i];
+        if (dom.getAttribute('data-mode') === 'replace') {
+          console.log('find element');
+          var url = dom.href;
+          // dom.removeAttribute('href');
+          dom.addEventListener('click', function () {
+            console.log(url);
+            history.replaceState({a:'a'}, '', url);
+          });
+        }
+      }
+    })();
+    var Router = (function () {
+      console.log('route init');
+      return {
+        config: function (path, callback) {
+          console.log(path + ' bind');
+          window.addEventListener('hashchange', function () {
+            var url = location.hash.slice(1) || '/';
+            if (path === url) {
+              callback && callback();
+            }
+          });
+        }
+      }
+    })();
+
+    Router.config('/page0', function () {
+      console.log('跳转至0页面');
+    });
+    Router.config('/page1', function () {
+      console.log('跳转至1页面');
+    });
+    Router.config('/page2', function () {
+      console.log('跳转至2页面');
+    });
+  </script>
+</body>
+</html>
