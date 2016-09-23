@@ -21,8 +21,10 @@
           console.log('find element');
           var url = dom.href;
           // dom.removeAttribute('href');
+          // 对于同时具有 click 事件 和 href 会优先处理 click 事件
           dom.addEventListener('click', function () {
             console.log(url);
+            // history popstate和 relpacestate事件都不会触发 hashchange
             history.replaceState({a:'a'}, '', url);
           });
         }
