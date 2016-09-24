@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+  </style>
+</head>
+<body>
+  <audio src="./resource/game_win.mp3" id="tip"></audio>
+  <script>
+    function creatScript () {
+      var dom = document.createElement('script');
+      dom.type = 'text/javascript';
+      dom.src = 'http://c0.3.cn/stock?skuId=3133827&area=22_1930_49324_0&venderId=1000000127&cat=9987,653,655&buyNum=1&choseSuitSkuIds=&extraParam={%22originid%22:%221%22}&ch=1&pduid=163585678&pdpin=jd_4bd5f765cf28f&callback=jQuery3684329';
+      document.getElementsByTagName('head')[0].appendChild(dom);
+      return dom;
+    }
+    function removeScript () {
+    	var dom = creatScript();
+    	dom.parentNode.removeChild(dom);
+    }
+    function giveTip () {
+    	var tip = document.getElementById('tip');
+    	var dom = document.getElementsByTagName('body')[0];
+    	dom.style.background = '#04be02';
+    	tip.play();
+    }
+    var timer = setInterval(function () {
+    	removeScript();
+    }, 2000);
+    function jQuery3684329 (data) {
+      console.log(data);
+      if (data.stock.StockState === 33) {
+      	giveTip();
+      	clearInterval(timer);
+      }
+    }
+  </script>
+</body>
+</html>
