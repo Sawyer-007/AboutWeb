@@ -19,6 +19,29 @@
   // 1007
   // 1008
   // 1009
+  // function Test () {
+  // 	var a = 3;
+  // 	return a;
+  // }
+
+  // var test1 = new Test();
+  // var test2 = Test();
+  // console.log(test1);
+  // console.log(test2);
+
+  var Sun = {
+  	a: 2,
+  	getNum: function () {
+  		return this.a;
+  	}
+  }
+
+  function Student () {
+  	this.a = 3333;
+  	this.b = Sun.getNum();
+  }
+  var s = new Student();
+  console.log(s.b);
   </script>
 </body>
 </html>
