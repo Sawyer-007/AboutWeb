@@ -10,11 +10,7 @@ export class Hero {
   <h1>{{title}}</h1>
   <h2>{{hero.name}} details!</h2>
   <div>
-    <lable>id: </lable> {{hero.id}}
-  </div>
-  <div>
-    <lable>name: </lable>
-    <input value="{{hero.name}}" placeholder="name" >
+    <label>id: </label> {{hero.id}}
   </div>
   `
 })
@@ -24,5 +20,5 @@ export class AppComponent {
   hero: Hero = {
     id: 1,
     name: 'windstorm'
-  };
+  }
 }
